@@ -1,0 +1,421 @@
+Last login: Tue Sep 29 13:42:52 on ttys001
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % ipconfig getifaddr en0
+10.7.28.24
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % ping -c 4 10.7.30.18
+PING 10.7.30.18 (10.7.30.18): 56 data bytes
+64 bytes from 10.7.30.18: icmp_seq=0 ttl=64 time=90.055 ms
+64 bytes from 10.7.30.18: icmp_seq=1 ttl=64 time=8.807 ms
+64 bytes from 10.7.30.18: icmp_seq=2 ttl=64 time=755.162 ms
+64 bytes from 10.7.30.18: icmp_seq=3 ttl=64 time=6.046 ms
+
+--- 10.7.30.18 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 6.046/215.018/755.162/313.673 ms
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % ping -c 4 10.7.9.8
+PING 10.7.9.8 (10.7.9.8): 56 data bytes
+64 bytes from 10.7.9.8: icmp_seq=0 ttl=64 time=23.481 ms
+64 bytes from 10.7.9.8: icmp_seq=1 ttl=64 time=7.215 ms
+64 bytes from 10.7.9.8: icmp_seq=2 ttl=64 time=7.663 ms
+64 bytes from 10.7.9.8: icmp_seq=3 ttl=64 time=6.499 ms
+
+--- 10.7.9.8 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 6.499/11.215/23.481/7.094 ms
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % ping -c 4 10.7.11.140
+PING 10.7.11.140 (10.7.11.140): 56 data bytes
+64 bytes from 10.7.11.140: icmp_seq=0 ttl=64 time=54.860 ms
+64 bytes from 10.7.11.140: icmp_seq=1 ttl=64 time=11.049 ms
+64 bytes from 10.7.11.140: icmp_seq=2 ttl=64 time=85.413 ms
+64 bytes from 10.7.11.140: icmp_seq=3 ttl=64 time=9.610 ms
+
+--- 10.7.11.140 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 9.610/40.233/85.413/31.799 ms
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % curl -si http://10.7.9.8:3001/api/status
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Backend: A
+Cache-Control: max-age=60
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+Date: Tue, 29 Sep 2026 11:20:18 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"backend":"A","status":"ok"}%                                                  adityasrivastava@Adityas-MacBook-Pro-103 ~ % curl -si http://10.7.11.140:3002/api/status
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Backend: B
+Cache-Control: max-age=60
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+ETag: W/"1d-eqo46f6cZTMyh8pAIw5ntQG78PA"
+Date: Tue, 29 Sep 2026 11:20:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"backend":"B","status":"ok"}%                                                  adityasrivastava@Adityas-MacBook-Pro-103 ~ % brew --prefix
+/opt/homebrew
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % brew install nginx openssl@3
+==> Downloading Homebrew API data
+✔︎ JSON API packages.arm64_sequoia.jws.json          Downloaded   15.6MB/ 15.6MB
+Warning: nginx 1.31.6 is already installed and up-to-date.
+To reinstall 1.31.6, run:
+  brew reinstall nginx
+openssl@3  is already installed but outdated (so it will be upgraded).
+==> Downloading bottle manifests
+✔︎ Bottle Manifest openssl@3 (3.6.4_1)               Downloaded   20.2KB/ 20.2KB
+==> Would upgrade 1 formula:
+openssl@3 3.6.4 -> 3.6.4_1
+==> Fetching downloads for: openssl@3
+✔︎ Bottle openssl@3 (3.6.4_1)                        Downloaded   11.0MB/ 11.0MB
+==> Pouring openssl@3--3.6.4_1.arm64_sequoia.bottle.tar.gz
+Warning: openssl@3 was installed but not linked because openssl@4 is already linked.
+To link this version, run:
+  brew link openssl@3
+🍺  /opt/homebrew/Cellar/openssl@3/3.6.4_1: 7,639 files, 37.8MB
+==> Cleanup
+Removing: /opt/homebrew/Cellar/openssl@3/3.6.4... (7,639 files, 37.8MB)
+Removing: /Users/adityasrivastava/Library/Caches/Homebrew/openssl@3--3.6.4... (11.0MB)
+Removing: /Users/adityasrivastava/Library/Caches/Homebrew/openssl@3_bottle_manifest--3.6.4... (24KB)
+Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
+Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+==> Caveats
+==> openssl@3
+To add additional certificates, place .pem files in
+  /opt/homebrew/etc/openssl@3/certs
+
+and run
+  /opt/homebrew/opt/openssl@3/bin/c_rehash
+
+OpenSSL 3.6 is only supported until 2026-11-01 so the `openssl@3`
+formula will be downgraded to OpenSSL 3.5 (LTS) in a future update.
+
+openssl@3 is keg-only, which means it was not symlinked into /opt/homebrew,
+because this is an alternate version of another formula.
+
+If you need to have openssl@3 first in your PATH, run:
+  echo 'export PATH=/opt/homebrew/opt/openssl@3/bin:$PATH' >> ~/.zshrc
+
+For compilers to find openssl@3 you may need to set:
+  export LDFLAGS=-L/opt/homebrew/opt/openssl@3/lib
+  export CPPFLAGS=-I/opt/homebrew/opt/openssl@3/include
+
+The following openssl@3 executables are shadowed by other linked Homebrew commands:
+  openssl (shadowed by /opt/homebrew/bin/openssl from openssl@4)
+Running these by name will not invoke the version provided by this formula.
+Run `brew link openssl@3` to switch the active version to this keg.
+Disable this behaviour by setting `HOMEBREW_NO_PATH_SHADOW_CHECK=1`.
+Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % nginx -v
+nginx version: nginx/1.31.6
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % brew services stop nginx
+Warning: Service `nginx` is not started.
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % cp /opt/homebrew/etc/nginx/nginx.conf /opt/homebrew/etc/nginx/nginx.conf.bak
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % mkdir -p /opt/homebrew/etc/nginx/servers /opt/homebrew/etc/nginx/certs ~/cn-edge/evidence
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % grep -n "include servers" /opt/homebrew/etc/nginx/nginx.conf
+114:    include servers/*;
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
+Password:
+Firewall is disabled. (State = 0)
+adityasrivastava@Adityas-MacBook-Pro-103 ~ %  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add "$(realpath /opt/homebrew/bin/nginx)"
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
+Firewall is disabled. (State = 0)
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp "$(realpath /opt/homebrew/bin/nginx)"
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getappblocked "$(realpath /opt/homebrew/bin/nginx)"
+Incoming connection to /opt/homebrew/Cellar/nginx/1.31.6/bin/nginx is permitted.
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % curl -si http://10.7.9.8:3001/api/status
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Backend: A
+Cache-Control: max-age=60
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+Date: Tue, 29 Sep 2026 11:24:57 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"backend":"A","status":"ok"}%                                                  adityasrivastava@Adityas-MacBook-Pro-103 ~ % curl -si http://10.7.11.140:3002/api/status
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Backend: B
+Cache-Control: max-age=60
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+ETag: W/"1d-eqo46f6cZTMyh8pAIw5ntQG78PA"
+Date: Tue, 29 Sep 2026 11:25:04 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"backend":"B","status":"ok"}%                                                  adityasrivastava@Adityas-MacBook-Pro-103 ~ % dig @10.7.30.18 google.com +short
+192.178.177.102
+192.178.177.113
+192.178.177.138
+192.178.177.100
+192.178.177.101
+192.178.177.139
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo networksetup -setdnsservers Wi-Fi 10.7.30.18
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % dig app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> app.teamX.test
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 19257
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.28.24
+
+;; Query time: 88 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 16:55:58 IST 2026
+;; MSG SIZE  rcvd: 59
+
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % dig google.com +short
+192.178.177.102
+192.178.177.113
+192.178.177.138
+192.178.177.100
+192.178.177.101
+192.178.177.139
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % cat > /opt/homebrew/etc/nginx/servers/teamx.conf <<'EOF'
+upstream backend_pool {
+    server 10.7.9.8:3001 max_fails=1 fail_timeout=10s;
+    server 10.7.11.140:3002 max_fails=1 fail_timeout=10s;
+}
+
+server {
+    listen 80;
+    server_name app.teamX.test api.teamX.test;
+
+    location / {
+        proxy_pass http://backend_pool;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_connect_timeout 2s;
+        proxy_next_upstream error timeout http_502 http_503;
+    }
+}
+EOF
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % cat /opt/homebrew/etc/nginx/servers/teamx.conf
+upstream backend_pool {
+    server 10.7.9.8:3001 max_fails=1 fail_timeout=10s;
+    server 10.7.11.140:3002 max_fails=1 fail_timeout=10s;
+}
+
+server {
+    listen 80;
+    server_name app.teamX.test api.teamX.test;
+
+    location / {
+        proxy_pass http://backend_pool;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_connect_timeout 2s;
+        proxy_next_upstream error timeout http_502 http_503;
+    }
+}
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo nginx -t
+nginx: the configuration file /opt/homebrew/etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /opt/homebrew/etc/nginx/nginx.conf test is successful
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % sudo nginx
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % curl -sI http://app.teamX.test/api/status
+HTTP/1.1 200 OK
+Server: nginx/1.31.6
+Date: Tue, 29 Sep 2026 11:27:39 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+Connection: keep-alive
+X-Powered-By: Express
+X-Backend: A
+Cache-Control: max-age=60
+ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % for i in {1..6}; do curl -sI http://app.teamX.test/api/status | grep -i x-backend; done | tee ~/cn-edge/evidence/cp5_http_roundrobin.txt
+X-Backend: B
+X-Backend: A
+X-Backend: B
+X-Backend: A
+X-Backend: B
+X-Backend: A
+adityasrivastava@Adityas-MacBook-Pro-103 ~ % cd /opt/homebrew/etc/nginx/certs
+adityasrivastava@Adityas-MacBook-Pro-103 certs % /opt/homebrew/opt/openssl@3/bin/openssl req -x509 -newkey rsa:2048 -nodes -days 365 -keyout edge.key -out edge.crt -subj "/CN=app.teamX.test" -addext "subjectAltName=DNS:app.teamX.test,DNS:api.teamX.test" -addext "extendedKeyUsage=serverAuth"
+....+.+.....+.........+......+.+..+++++++++++++++++++++++++++++++++++++++*..........+...+.+.........+...........+..........+.........+..+...+......+.+.........+...+...+...+++++++++++++++++++++++++++++++++++++++*.+..+...+.........+.+..............+....+.....+....+..+...+.......+.....+....+..............+..........+........+...+...................+......++++++
+.+.......+............+.....+......+............+............+.......+.....+.+..+.+.....+.+........+............+.........+....+..+++++++++++++++++++++++++++++++++++++++*..+...+...+..+.+......+.....+.+........+.+.....+....+.....+......+................+...+...........+.+..+.+.........+..+...................+.....+.+...+.....+.......+.....+................+.....+..........+.....+.......+............+...+........+.......+...+..+.+....................+.........+.+..+....+++++++++++++++++++++++++++++++++++++++*......+....+..+.+............+..+.............+...+..+.+......+.....+......+...+..........+..+.......+..+....+....................+.+...+.....+...+....+....................+...+.+..+....+.....+...+.+..+....+...+...+...+.........+..+........................+......+..........+...........+...+......+.+.....+.......+.....+.+.....+....+.....+.+.....+.+......+.................+..................+....+.....+.............+..+...................+..+....+...+......+..+...+.+...+...+.................+......+.......+..+......+....+..+.+.....+...+.........+...+....+...+..++++++
+-----
+adityasrivastava@Adityas-MacBook-Pro-103 certs % /opt/homebrew/opt/openssl@3/bin/openssl x509 -in edge.crt -noout -text | grep -A1 "Subject Alternative Name"
+            X509v3 Subject Alternative Name: 
+                DNS:app.teamX.test, DNS:api.teamX.test
+adityasrivastava@Adityas-MacBook-Pro-103 certs %  ls -l /opt/homebrew/etc/nginx/certs
+total 16
+-rw-r--r--@ 1 adityasrivastava  admin  1216 Sep 29 16:58 edge.crt
+-rw-------@ 1 adityasrivastava  admin  1704 Sep 29 16:58 edge.key
+adityasrivastava@Adityas-MacBook-Pro-103 certs % ls -l /opt/homebrew/etc/nginx/certs
+total 16
+-rw-r--r--@ 1 adityasrivastava  admin  1216 Sep 29 16:58 edge.crt
+-rw-------@ 1 adityasrivastava  admin  1704 Sep 29 16:58 edge.key
+adityasrivastava@Adityas-MacBook-Pro-103 certs % >....                          
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name app.teamX.test api.teamX.test;
+
+    ssl_certificate     /opt/homebrew/etc/nginx/certs/edge.crt;
+    ssl_certificate_key /opt/homebrew/etc/nginx/certs/edge.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    location / {
+        proxy_pass http://backend_pool;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 2s;
+        proxy_next_upstream error timeout http_502 http_503;
+        add_header X-Edge "mac2" always;
+    }
+}
+EOF
+adityasrivastava@Adityas-MacBook-Pro-103 certs % sudo nginx -t
+nginx: the configuration file /opt/homebrew/etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /opt/homebrew/etc/nginx/nginx.conf test is successful
+adityasrivastava@Adityas-MacBook-Pro-103 certs % sudo nginx -s reload
+adityasrivastava@Adityas-MacBook-Pro-103 certs % sudo lsof -iTCP -sTCP:LISTEN -n -P | grep nginx
+nginx     20508             root    6u  IPv4 0x520144f16b168ee5      0t0  TCP *:8080 (LISTEN)
+nginx     20508             root    7u  IPv4 0xa426cdddea687302      0t0  TCP *:80 (LISTEN)
+nginx     20508             root   11u  IPv4 0xb97149a8e736579b      0t0  TCP *:443 (LISTEN)
+nginx     20571           nobody    6u  IPv4 0x520144f16b168ee5      0t0  TCP *:8080 (LISTEN)
+nginx     20571           nobody    7u  IPv4 0xa426cdddea687302      0t0  TCP *:80 (LISTEN)
+nginx     20571           nobody   11u  IPv4 0xb97149a8e736579b      0t0  TCP *:443 (LISTEN)
+adityasrivastava@Adityas-MacBook-Pro-103 certs % sudo lsof -iTCP -sTCP:LISTEN -n -P | grep nginx
+nginx     20508             root    6u  IPv4 0x520144f16b168ee5      0t0  TCP *:8080 (LISTEN)
+nginx     20508             root    7u  IPv4 0xa426cdddea687302      0t0  TCP *:80 (LISTEN)
+nginx     20508             root   11u  IPv4 0xb97149a8e736579b      0t0  TCP *:443 (LISTEN)
+nginx     20571           nobody    6u  IPv4 0x520144f16b168ee5      0t0  TCP *:8080 (LISTEN)
+nginx     20571           nobody    7u  IPv4 0xa426cdddea687302      0t0  TCP *:80 (LISTEN)
+nginx     20571           nobody   11u  IPv4 0xb97149a8e736579b      0t0  TCP *:443 (LISTEN)
+adityasrivastava@Adityas-MacBook-Pro-103 certs % sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /opt/homebrew/etc/nginx/certs/edge.crt
+SecTrustSettingsSetTrustSettings: The authorization was canceled by the user.
+adityasrivastava@Adityas-MacBook-Pro-103 certs % sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /opt/homebrew/etc/nginx/certs/edge.crt
+adityasrivastava@Adityas-MacBook-Pro-103 certs %  security verify-cert -c /opt/homebrew/etc/nginx/certs/edge.crt -p ssl -s app.teamX.test
+...certificate verification successful.
+---
+No extended validation result found
+Certificate Transparency (CT) status: not verified
+Unable to find at least 2 signed certificate timestamps (SCTs) from approved logs
+adityasrivastava@Adityas-MacBook-Pro-103 certs % grep -n "upstream\|listen\|return 301\|ssl_certificate" /opt/homebrew/etc/nginx/servers/teamx.conf
+1:upstream backend_pool {
+7:    listen 80;
+9:    return 301 https://$host$request_uri;
+13:    listen 443 ssl;
+16:    ssl_certificate     /opt/homebrew/etc/nginx/certs/edge.crt;
+17:    ssl_certificate_key /opt/homebrew/etc/nginx/certs/edge.key;
+27:        proxy_next_upstream error timeout http_502 http_503;
+adityasrivastava@Adityas-MacBook-Pro-103 certs % curl -si https://app.teamX.test/api/status
+HTTP/1.1 200 OK
+Server: nginx/1.31.6
+Date: Tue, 29 Sep 2026 11:30:52 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+Connection: keep-alive
+X-Powered-By: Express
+X-Backend: A
+Cache-Control: max-age=60
+ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+X-Edge: mac2
+
+{"backend":"A","status":"ok"}%                                                  adityasrivastava@Adityas-MacBook-Pro-103 certs % curl -si https://app.teamX.test/api/status
+HTTP/1.1 200 OK
+Server: nginx/1.31.6
+Date: Tue, 29 Sep 2026 11:30:56 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+Connection: keep-alive
+X-Powered-By: Express
+X-Backend: B
+Cache-Control: max-age=60
+ETag: W/"1d-eqo46f6cZTMyh8pAIw5ntQG78PA"
+X-Edge: mac2
+
+{"backend":"B","status":"ok"}%                                                  adityasrivastava@Adityas-MacBook-Pro-103 certs % echo 'export CURL_CA_BUNDLE=/opt/homebrew/etc/nginx/certs/edge.crt' >> ~/.zshrc && source ~/.zshrc
+adityasrivastava@Adityas-MacBook-Pro-103 certs % curl -sI http://app.teamX.test/api/status
+HTTP/1.1 301 Moved Permanently
+Server: nginx/1.31.6
+Date: Tue, 29 Sep 2026 11:31:09 GMT
+Content-Type: text/html
+Content-Length: 169
+Connection: keep-alive
+Location: https://app.teamx.test/api/status
+
+adityasrivastava@Adityas-MacBook-Pro-103 certs % for i in {1..10}; do curl -sI https://app.teamX.test/api/status | grep -i x-backend; done | tee ~/cn-edge/evidence/cp7_https_roundrobin.txt
+X-Backend: A
+X-Backend: B
+X-Backend: A
+X-Backend: B
+X-Backend: A
+X-Backend: B
+X-Backend: A
+X-Backend: B
+X-Backend: A
+X-Backend: B
+adityasrivastava@Adityas-MacBook-Pro-103 certs % curl -sI https://app.teamX.test/api/status | grep -i cache-control
+Cache-Control: max-age=60
+adityasrivastava@Adityas-MacBook-Pro-103 certs % open -a Safari https://app.teamX.test/api/status
+adityasrivastava@Adityas-MacBook-Pro-103 certs % /opt/homebrew/etc/nginx/certs/edge.crt
+zsh: permission denied: /opt/homebrew/etc/nginx/certs/edge.crt
+adityasrivastava@Adityas-MacBook-Pro-103 certs % open /opt/homebrew/etc/nginx/certs
+adityasrivastava@Adityas-MacBook-Pro-103 certs % grep -n -A8 -B2 "upstream backend_pool"
+^C
+adityasrivastava@Adityas-MacBook-Pro-103 certs % grep -n -A8 -B2 "upstream backend_pool" /opt/homebrew/etc/nginx/nginx.conf
+grep -R -n -A8 -B2 "upstream backend_pool" /opt/homebrew/etc/nginx/servers/
+/opt/homebrew/etc/nginx/servers//teamx.conf:1:upstream backend_pool {
+/opt/homebrew/etc/nginx/servers//teamx.conf-2-    server 10.7.9.8:3001 max_fails=1 fail_timeout=10s;
+/opt/homebrew/etc/nginx/servers//teamx.conf-3-    server 10.7.11.140:3002 max_fails=1 fail_timeout=10s;
+/opt/homebrew/etc/nginx/servers//teamx.conf-4-}
+/opt/homebrew/etc/nginx/servers//teamx.conf-5-
+/opt/homebrew/etc/nginx/servers//teamx.conf-6-server {
+/opt/homebrew/etc/nginx/servers//teamx.conf-7-    listen 80;
+/opt/homebrew/etc/nginx/servers//teamx.conf-8-    server_name app.teamX.test api.teamX.test;
+/opt/homebrew/etc/nginx/servers//teamx.conf-9-    return 301 https://$host$request_uri;
+adityasrivastava@Adityas-MacBook-Pro-103 certs % for i in {1..6}; do
+  curl -sI https://app.teamX.test/api/status | grep -i '^X-Backend:'
+done
+X-Backend: B
+X-Backend: B
+X-Backend: B
+X-Backend: B
+X-Backend: B
+X-Backend: B
+adityasrivastava@Adityas-MacBook-Pro-103 certs % [9:59 pm, 29/9/2026] Aditya Srivastava: 
+[10:00 pm, 29/9/2026] Aditya Srivastava: yehi aaya
+[10:02 pm, 29/9/2026] Nishtha Nsy Gupta: curl -si https://app.teamX.test/api/status
+zsh: bad pattern: [9:59
+adityasrivastava@Adityas-MacBook-Pro-103 certs % curl -si https://app.teamX.test/api/status
+HTTP/1.1 502 Bad Gateway
+Server: nginx/1.31.6
+Date: Tue, 29 Sep 2026 16:32:40 GMT
+Content-Type: text/html
+Content-Length: 157
+Connection: keep-alive
+X-Edge: mac2
+
+<html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.31.6</center>
+</body>
+</html>
+adityasrivastava@Adityas-MacBook-Pro-103 certs % 

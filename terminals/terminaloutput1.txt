@@ -1,0 +1,711 @@
+Last login: Tue Sep 29 13:37:53 on ttys004
+nishthagupta@Nishthas-MacBook-Pro ~ % ifconfig en0 | grep "inet "
+	inet 10.7.9.8 netmask 0xffffe000 broadcast 10.7.31.255
+nishthagupta@Nishthas-MacBook-Pro ~ % netstat -nr | grep default
+default            10.7.0.1           UGScg                 en0       
+default                                 fe80::%utun0                            UGcIg               utun0       
+default                                 fe80::%utun1                            UGcIg               utun1       
+default                                 fe80::%utun2                            UGcIg               utun2       
+default                                 fe80::%utun3                            UGcIg               utun3       
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.30.18
+PING 10.7.30.18 (10.7.30.18): 56 data bytes
+64 bytes from 10.7.30.18: icmp_seq=0 ttl=32 time=87.195 ms
+64 bytes from 10.7.30.18: icmp_seq=1 ttl=32 time=649.900 ms
+64 bytes from 10.7.30.18: icmp_seq=2 ttl=32 time=37.280 ms
+64 bytes from 10.7.30.18: icmp_seq=3 ttl=32 time=1364.838 ms
+
+--- 10.7.30.18 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 37.280/534.803/1364.838/536.211 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.28.24
+PING 10.7.28.24 (10.7.28.24): 56 data bytes
+64 bytes from 10.7.28.24: icmp_seq=0 ttl=64 time=264.032 ms
+64 bytes from 10.7.28.24: icmp_seq=1 ttl=64 time=177.151 ms
+64 bytes from 10.7.28.24: icmp_seq=2 ttl=64 time=92.070 ms
+64 bytes from 10.7.28.24: icmp_seq=3 ttl=64 time=111.920 ms
+
+--- 10.7.28.24 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 92.070/161.293/264.032/67.150 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.11.140
+PING 10.7.11.140 (10.7.11.140): 56 data bytes
+64 bytes from 10.7.11.140: icmp_seq=0 ttl=64 time=199.311 ms
+64 bytes from 10.7.11.140: icmp_seq=1 ttl=64 time=94.212 ms
+64 bytes from 10.7.11.140: icmp_seq=2 ttl=64 time=116.856 ms
+64 bytes from 10.7.11.140: icmp_seq=3 ttl=64 time=50.858 ms
+
+--- 10.7.11.140 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 50.858/115.309/199.311/53.986 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % curl http://10.7.11.140:3002
+{"message":"Backend B is running"}%                                                                                                                                                                                  nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.30.18
+PING 10.7.30.18 (10.7.30.18): 56 data bytes
+64 bytes from 10.7.30.18: icmp_seq=0 ttl=64 time=127.233 ms
+Request timeout for icmp_seq 1
+64 bytes from 10.7.30.18: icmp_seq=2 ttl=64 time=150.272 ms
+64 bytes from 10.7.30.18: icmp_seq=3 ttl=64 time=20.303 ms
+
+--- 10.7.30.18 ping statistics ---
+4 packets transmitted, 3 packets received, 25.0% packet loss
+round-trip min/avg/max/stddev = 20.303/99.269/150.272/56.624 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.11.140 
+PING 10.7.11.140 (10.7.11.140): 56 data bytes
+64 bytes from 10.7.11.140: icmp_seq=0 ttl=64 time=167.968 ms
+64 bytes from 10.7.11.140: icmp_seq=1 ttl=64 time=55.947 ms
+64 bytes from 10.7.11.140: icmp_seq=2 ttl=64 time=49.222 ms
+64 bytes from 10.7.11.140: icmp_seq=3 ttl=64 time=100.819 ms
+
+--- 10.7.11.140 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 49.222/93.489/167.968/47.355 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % dig app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> app.teamX.test
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 8657
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.28.24
+
+;; Query time: 39 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 16:32:14 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo networksetup -setdnsservers Wi-Fi 10.7.30.18
+Password:
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo dscacheutil -flushcache
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo killall -HUP mDNSResponder
+nishthagupta@Nishthas-MacBook-Pro ~ % dig app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> app.teamX.test
+;; global options: +cmd
+;; connection timed out; no servers could be reached
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.30.18
+PING 10.7.30.18 (10.7.30.18): 56 data bytes
+64 bytes from 10.7.30.18: icmp_seq=0 ttl=32 time=246.461 ms
+64 bytes from 10.7.30.18: icmp_seq=1 ttl=32 time=125.330 ms
+64 bytes from 10.7.30.18: icmp_seq=2 ttl=32 time=51.695 ms
+64 bytes from 10.7.30.18: icmp_seq=3 ttl=32 time=1000.646 ms
+
+--- 10.7.30.18 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 51.695/356.033/1000.646/378.608 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -getdnsservers Wi-Fi
+10.7.30.18
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.18 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.18 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; connection timed out; no servers could be reached
+nishthagupta@Nishthas-MacBook-Pro ~ % nc -vz 10.7.30.18 53
+Connection to 10.7.30.18 port 53 [tcp/domain] succeeded!
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.18 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.18 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 54982
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.28.24
+
+;; Query time: 76 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 17:14:46 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -si https://app.teamX.test/api/status
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -si https://app.teamX.test/api/status
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -v https://app.teamX.test/api/status
+* Could not resolve host: app.teamX.test
+* Closing connection
+curl: (6) Could not resolve host: app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -getdnsservers Wi-Fi
+10.7.30.18
+nishthagupta@Nishthas-MacBook-Pro ~ % scutil --dns | grep -E 'nameserver\[[0-9]+\]'
+  nameserver[0] : 10.7.30.18
+  nameserver[0] : 10.7.30.18
+nishthagupta@Nishthas-MacBook-Pro ~ % dscacheutil -q host -a name app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 1 app.teamX.test
+ping: cannot resolve app.teamX.test: Unknown host
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo dscacheutil -flushcache
+Password:
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo killall -HUP mDNSResponder
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -setairportpower en0 off
+nishthagupta@Nishthas-MacBook-Pro ~ % sleep 3
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -setairportpower en0 on
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -setairportpower en0 off
+nishthagupta@Nishthas-MacBook-Pro ~ % sleep 3
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -setairportpower en0 on
+nishthagupta@Nishthas-MacBook-Pro ~ % dscacheutil -q host -a name app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 1 app.teamX.test
+ping: cannot resolve app.teamX.test: Unknown host
+nishthagupta@Nishthas-MacBook-Pro ~ % scutil --dns
+DNS configuration
+
+resolver #1
+  nameserver[0] : 10.7.30.18
+  flags    : Request A records
+  reach    : 0x00020002 (Reachable,Directly Reachable Address)
+
+resolver #2
+  domain   : local
+  options  : mdns
+  timeout  : 5
+  flags    : Request A records
+  reach    : 0x00000000 (Not Reachable)
+  order    : 300000
+
+resolver #3
+  domain   : 254.169.in-addr.arpa
+  options  : mdns
+  timeout  : 5
+  flags    : Request A records
+  reach    : 0x00000000 (Not Reachable)
+  order    : 300200
+
+resolver #4
+  domain   : 8.e.f.ip6.arpa
+  options  : mdns
+  timeout  : 5
+  flags    : Request A records
+  reach    : 0x00000000 (Not Reachable)
+  order    : 300400
+
+resolver #5
+  domain   : 9.e.f.ip6.arpa
+  options  : mdns
+  timeout  : 5
+  flags    : Request A records
+  reach    : 0x00000000 (Not Reachable)
+  order    : 300600
+
+resolver #6
+  domain   : a.e.f.ip6.arpa
+  options  : mdns
+  timeout  : 5
+  flags    : Request A records
+  reach    : 0x00000000 (Not Reachable)
+  order    : 300800
+
+resolver #7
+  domain   : b.e.f.ip6.arpa
+  options  : mdns
+  timeout  : 5
+  flags    : Request A records
+  reach    : 0x00000000 (Not Reachable)
+  order    : 301000
+
+DNS configuration (for scoped queries)
+
+resolver #1
+  nameserver[0] : 10.7.30.18
+  if_index : 11 (en0)
+  flags    : Scoped, Request A records
+  reach    : 0x00020002 (Reachable,Directly Reachable Address)
+nishthagupta@Nishthas-MacBook-Pro ~ % dscacheutil -q host -a name app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % curl --interface en0 -v https://app.teamX.test/api/status
+* Could not resolve host: app.teamX.test
+* Closing connection
+curl: (6) Could not resolve host: app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo killall -INFO mDNSResponder
+Password:
+nishthagupta@Nishthas-MacBook-Pro ~ % log show --last 1m --predicate 'process == "mDNSResponder"' --info | grep -i "teamX\|10.7.30.18" | tail -30
+nishthagupta@Nishthas-MacBook-Pro ~ % nslookup app.teamX.test 10.7.30.18
+;; connection timed out; no servers could be reached
+
+nishthagupta@Nishthas-MacBook-Pro ~ % nslookup app.teamX.test 10.7.30.18
+Server:		10.7.30.18
+Address:	10.7.30.18#53
+
+Name:	app.teamX.test
+Address: 10.7.28.24
+
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -v https://app.teamX.test/api/status
+* Could not resolve host: app.teamX.test
+* Closing connection
+curl: (6) Could not resolve host: app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % for i in {1..10}; do
+  echo "TEST $i"
+  dig @10.7.30.18 app.teamX.test +short
+  sleep 1
+done
+TEST 1
+10.7.28.24
+TEST 2
+10.7.28.24
+TEST 3
+10.7.28.24
+TEST 4
+10.7.28.24
+TEST 5
+10.7.28.24
+TEST 6
+10.7.28.24
+TEST 7
+10.7.28.24
+TEST 8
+10.7.28.24
+TEST 9
+10.7.28.24
+TEST 10
+10.7.28.24
+nishthagupta@Nishthas-MacBook-Pro ~ % dscacheutil -q host -a name app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 1 app.teamX.test
+ping: cannot resolve app.teamX.test: Unknown host
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -v --resolve app.teamX.test:443:10.7.28.24 https://app.teamX.test/api/status
+* Added app.teamX.test:443:10.7.28.24 to DNS cache
+* Hostname app.teamX.test was found in DNS cache
+*   Trying 10.7.28.24:443...
+* connect to 10.7.28.24 port 443 from 10.7.9.8 port 60668 failed: Operation timed out
+* Failed to connect to app.teamX.test port 443 after 75005 ms: Couldn't connect to server
+* Closing connection
+curl: (28) Failed to connect to app.teamX.test port 443 after 75005 ms: Couldn't connect to server
+nishthagupta@Nishthas-MacBook-Pro ~ % nc -vz -G 5 10.7.28.24 443
+nc: connectx to 10.7.28.24 port 443 (tcp) failed: Operation timed out
+nishthagupta@Nishthas-MacBook-Pro ~ % nc -vz -G 5 10.7.28.24 443
+Connection to 10.7.28.24 port 443 [tcp/https] succeeded!
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -v --resolve app.teamX.test:443:10.7.28.24 https://app.teamX.test/api/status
+* Added app.teamX.test:443:10.7.28.24 to DNS cache
+* Hostname app.teamX.test was found in DNS cache
+*   Trying 10.7.28.24:443...
+* Connected to app.teamX.test (10.7.28.24) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+* (304) (IN), TLS handshake, Unknown (8):
+* (304) (IN), TLS handshake, Certificate (11):
+* SSL certificate problem: self signed certificate
+* Closing connection
+curl: (60) SSL certificate problem: self signed certificate
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/Downloads/edge.crt
+Password:
+nishthagupta@Nishthas-MacBook-Pro ~ % security verify-cert -c ~/Downloads/edge.crt -p ssl -s app.teamX.test
+...certificate verification successful.
+---
+No extended validation result found
+Certificate Transparency (CT) status: not verified
+Unable to find at least 2 signed certificate timestamps (SCTs) from approved logs
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -v --resolve app.teamX.test:443:10.7.28.24 https://app.teamX.test/api/status
+* Added app.teamX.test:443:10.7.28.24 to DNS cache
+* Hostname app.teamX.test was found in DNS cache
+*   Trying 10.7.28.24:443...
+* Connected to app.teamX.test (10.7.28.24) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+* (304) (IN), TLS handshake, Unknown (8):
+* (304) (IN), TLS handshake, Certificate (11):
+* (304) (IN), TLS handshake, CERT verify (15):
+* (304) (IN), TLS handshake, Finished (20):
+* (304) (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / AEAD-CHACHA20-POLY1305-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=app.teamX.test
+*  start date: Sep 29 11:28:26 2026 GMT
+*  expire date: Sep 29 11:28:26 2027 GMT
+*  subjectAltName: host "app.teamX.test" matched cert's "app.teamX.test"
+*  issuer: CN=app.teamX.test
+*  SSL certificate verify ok.
+* using HTTP/1.x
+> GET /api/status HTTP/1.1
+> Host: app.teamX.test
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Server: nginx/1.31.6
+< Date: Tue, 29 Sep 2026 13:03:03 GMT
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 29
+< Connection: keep-alive
+< X-Powered-By: Express
+< X-Backend: A
+< Cache-Control: max-age=60
+< ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+< X-Edge: mac2
+< 
+* Connection #0 to host app.teamX.test left intact
+{"backend":"A","status":"ok"}%                                                                                                                                                                                       nishthagupta@Nishthas-MacBook-Pro ~ % scutil --dns | grep -A5 -B2 "10.7.30.18"
+
+resolver #1
+  nameserver[0] : 10.7.30.18
+  nameserver[1] : 8.8.8.8
+  nameserver[2] : 127.0.0.1
+  flags    : Request A records, Request AAAA records
+  reach    : 0x00020002 (Reachable,Directly Reachable Address)
+
+--
+
+resolver #1
+  nameserver[0] : 10.7.30.18
+  nameserver[1] : 8.8.8.8
+  nameserver[2] : 127.0.0.1
+  if_index : 11 (en0)
+  flags    : Scoped, Request A records, Request AAAA records
+  reach    : 0x00020002 (Reachable,Directly Reachable Address)
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -getdnsservers Wi-Fi
+10.7.30.18
+8.8.8.8
+127.0.0.1
+nishthagupta@Nishthas-MacBook-Pro ~ % dig app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> app.teamX.test
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 41434
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; AUTHORITY SECTION:
+.			86388	IN	SOA	a.root-servers.net. nstld.verisign-grs.com. 2026092900 1800 900 604800 86400
+
+;; Query time: 19 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Tue Sep 29 18:35:01 IST 2026
+;; MSG SIZE  rcvd: 118
+
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -getdnsservers Wi-Fi
+10.7.30.18
+8.8.8.8
+127.0.0.1
+nishthagupta@Nishthas-MacBook-Pro ~ % dscacheutil -q host -a name app.teamX.test
+nishthagupta@Nishthas-MacBook-Pro ~ % ls -la /etc/resolver
+ls: /etc/resolver: No such file or directory
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo mkdir -p /etc/resolver
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo sh -c 'echo "nameserver 10.7.30.18" > /etc/resolver/teamX.test'
+nishthagupta@Nishthas-MacBook-Pro ~ % cat /etc/resolver/teamX.test
+nameserver 10.7.30.18
+nishthagupta@Nishthas-MacBook-Pro ~ % dig app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> app.teamX.test
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 3185
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.28.24
+
+;; Query time: 67 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 18:36:54 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -v https://app.teamX.test/api/status
+* Host app.teamX.test:443 was resolved.
+* IPv6: (none)
+* IPv4: 10.7.28.24
+*   Trying 10.7.28.24:443...
+* Connected to app.teamX.test (10.7.28.24) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+* (304) (IN), TLS handshake, Unknown (8):
+* (304) (IN), TLS handshake, Certificate (11):
+* (304) (IN), TLS handshake, CERT verify (15):
+* (304) (IN), TLS handshake, Finished (20):
+* (304) (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / AEAD-CHACHA20-POLY1305-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=app.teamX.test
+*  start date: Sep 29 11:28:26 2026 GMT
+*  expire date: Sep 29 11:28:26 2027 GMT
+*  subjectAltName: host "app.teamX.test" matched cert's "app.teamX.test"
+*  issuer: CN=app.teamX.test
+*  SSL certificate verify ok.
+* using HTTP/1.x
+> GET /api/status HTTP/1.1
+> Host: app.teamX.test
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Server: nginx/1.31.6
+< Date: Tue, 29 Sep 2026 13:07:18 GMT
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 29
+< Connection: keep-alive
+< X-Powered-By: Express
+< X-Backend: A
+< Cache-Control: max-age=60
+< ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+< X-Edge: mac2
+< 
+* Connection #0 to host app.teamX.test left intact
+{"backend":"A","status":"ok"}%                                                                                                                                                                                       nishthagupta@Nishthas-MacBook-Pro ~ % for i in {1..10}; do
+  echo "REQUEST $i"
+  curl -s https://app.teamX.test/api/status
+  echo
+done
+REQUEST 1
+{"backend":"A","status":"ok"}
+REQUEST 2
+{"backend":"A","status":"ok"}
+REQUEST 3
+{"backend":"A","status":"ok"}
+REQUEST 4
+{"backend":"A","status":"ok"}
+REQUEST 5
+{"backend":"A","status":"ok"}
+REQUEST 6
+{"backend":"A","status":"ok"}
+REQUEST 7
+{"backend":"A","status":"ok"}
+REQUEST 8
+{"backend":"A","status":"ok"}
+REQUEST 9
+{"backend":"A","status":"ok"}
+REQUEST 10
+{"backend":"A","status":"ok"}
+nishthagupta@Nishthas-MacBook-Pro ~ % for i in {1..10}; do
+  echo -n "REQUEST $i: "
+  curl -s --no-keepalive https://app.teamX.test/api/status
+  echo
+done
+REQUEST 1: {"backend":"A","status":"ok"}
+REQUEST 2: {"backend":"A","status":"ok"}
+REQUEST 3: {"backend":"A","status":"ok"}
+REQUEST 4: {"backend":"A","status":"ok"}
+REQUEST 5: {"backend":"A","status":"ok"}
+REQUEST 6: {"backend":"A","status":"ok"}
+REQUEST 7: {"backend":"A","status":"ok"}
+REQUEST 8: {"backend":"A","status":"ok"}
+REQUEST 9: {"backend":"A","status":"ok"}
+REQUEST 10: {"backend":"A","status":"ok"}
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -s https://app.teamX.test/api/status
+nishthagupta@Nishthas-MacBook-Pro ~ % dig app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> app.teamX.test
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 61980
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.28.24
+
+;; Query time: 117 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 18:52:17 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -v --no-keepalive https://app.teamX.test/api/status
+* Host app.teamX.test:443 was resolved.
+* IPv6: (none)
+* IPv4: 10.7.28.24
+*   Trying 10.7.28.24:443...
+* Connected to app.teamX.test (10.7.28.24) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+* (304) (IN), TLS handshake, Unknown (8):
+* (304) (IN), TLS handshake, Certificate (11):
+* (304) (IN), TLS handshake, CERT verify (15):
+* (304) (IN), TLS handshake, Finished (20):
+* (304) (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / AEAD-CHACHA20-POLY1305-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=app.teamX.test
+*  start date: Sep 29 11:28:26 2026 GMT
+*  expire date: Sep 29 11:28:26 2027 GMT
+*  subjectAltName: host "app.teamX.test" matched cert's "app.teamX.test"
+*  issuer: CN=app.teamX.test
+*  SSL certificate verify ok.
+* using HTTP/1.x
+> GET /api/status HTTP/1.1
+> Host: app.teamX.test
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Server: nginx/1.31.6
+< Date: Tue, 29 Sep 2026 13:22:40 GMT
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 29
+< Connection: keep-alive
+< X-Powered-By: Express
+< X-Backend: A
+< Cache-Control: max-age=60
+< ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+< X-Edge: mac2
+< 
+* Connection #0 to host app.teamX.test left intact
+{"backend":"A","status":"ok"}%                                                                                                                                                                                       nishthagupta@Nishthas-MacBook-Pro ~ % curl -si https://app.teamX.test/api/status
+HTTP/1.1 200 OK
+Server: nginx/1.31.6
+Date: Tue, 29 Sep 2026 13:29:05 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+Connection: keep-alive
+X-Powered-By: Express
+X-Backend: A
+Cache-Control: max-age=60
+ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+X-Edge: mac2
+
+{"backend":"A","status":"ok"}%                                                                                                                                                                                       nishthagupta@Nishthas-MacBook-Pro ~ % curl -si -H 'If-None-Match: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"' https://app.teamX.test/api/status
+HTTP/1.1 304 Not Modified
+Server: nginx/1.31.6
+Date: Tue, 29 Sep 2026 13:29:35 GMT
+Connection: keep-alive
+X-Powered-By: Express
+X-Backend: A
+Cache-Control: max-age=60
+ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+X-Edge: mac2
+
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -si http://localhost:3001/api/status
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Backend: A
+Cache-Control: max-age=60
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+ETag: W/"1d-/mMMZex8nvIDi44lSUobi0vFg/M"
+Date: Tue, 29 Sep 2026 16:13:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"backend":"A","status":"ok"}%                                                                                                                                                                                       nishthagupta@Nishthas-MacBook-Pro ~ % dig @8.8.8.8 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @8.8.8.8 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 30286
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; AUTHORITY SECTION:
+.			86384	IN	SOA	a.root-servers.net. nstld.verisign-grs.com. 2026092900 1800 900 604800 86400
+
+;; Query time: 18 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Tue Sep 29 21:44:31 IST 2026
+;; MSG SIZE  rcvd: 118
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.18 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.18 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 42937
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.28.24
+
+;; Query time: 11 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 21:45:50 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.18 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.18 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 36820
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.28.24
+
+;; Query time: 8 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 21:50:13 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.18 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.18 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 8739
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.9.8
+
+;; Query time: 26 msec
+;; SERVER: 10.7.30.18#53(10.7.30.18)
+;; WHEN: Tue Sep 29 21:55:04 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % nc -vz 10.7.9.8 3001
+Connection to 10.7.9.8 port 3001 [tcp/redwood-broker] succeeded!
+nishthagupta@Nishthas-MacBook-Pro ~ % nc -vz 10.7.9.8 3999
+nc: connectx to 10.7.9.8 port 3999 (tcp) failed: Connection refused
+nishthagupta@Nishthas-MacBook-Pro ~ % 

@@ -1,0 +1,62 @@
+Last login: Tue Sep 29 13:49:55 on ttys007
+nishthagupta@Nishthas-MacBook-Pro backend-A % curl http://127.0.0.1:3001
+{"message":"Backend A is running"}%                                                                                                                                                                                  nishthagupta@Nishthas-MacBook-Pro backend-A % curl http://10.7.9.8:3001
+{"message":"Backend A is running"}%                                                                                                                                                                                  nishthagupta@Nishthas-MacBook-Pro backend-A % lsof -nP -iTCP:3001 -sTCP:LISTEN
+COMMAND   PID         USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    72256 nishthagupta   15u  IPv4 0xa17729f12312674d      0t0  TCP *:3001 (LISTEN)
+nishthagupta@Nishthas-MacBook-Pro backend-A % # 1. Check IP
+ifconfig en0 | grep "inet "
+
+# 2. Check Wi-Fi configuration
+networksetup -getinfo Wi-Fi
+
+# 3. Check default route
+netstat -nr | grep default
+
+# 4. Ping Nishtha - Backend A
+ping -c 4 10.7.9.8
+
+# 5. Ping Aditya - NGINX
+ping -c 4 10.7.28.24
+
+# 6. Ping Shrijan - Backend B
+ping -c 4 10.7.11.140
+
+# 7. Check Homebrew
+brew --version
+
+# 8. Check whether dnsmasq is installed
+dnsmasq --version
+
+# 9. Check dnsmasq location
+which dnsmasq
+
+# 10. Check whether DNS port                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -406,7 +406,7 @@ On Nishtha's machine:
 ```bash
 cd backend-a
 npm install
-node server.js
+node backend-A.js
 ```
 
 Backend A runs on:
@@ -420,9 +420,9 @@ Backend A runs on:
 On Shrijan's machine:
 
 ```bash
-cd backend-b
+cd backend-B
 npm install
-node server.js
+node backend-b.js
 ```
 
 Backend B runs on:

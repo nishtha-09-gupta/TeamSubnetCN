@@ -2,7 +2,7 @@
 
 ## Computer Networks Course Project — Phase 1 and Phase 2
 
-**Private Network Service Platform** built across four macOS laptops on a private LAN. Phase 1 established private DNS, two Express backends, an nginx HTTPS edge, load balancing, caching, and packet analysis. Phase 2 adds a backup DNS resolver, controlled DNS changes, backend isolation, backend failover, standby-edge migration, and layered troubleshooting.
+**Private Network Service Platform** built across four macOS laptops on a private LAN. Phase 1 established private DNS, two Express backends, an nginx HTTPS edge, load balancing, caching, and packet analysis. Phase 2 adds a backup DNS resolver, controlled DNS changes, backend isolation, backend failover, standby-edge migration.
 
 ## Current deployment — Phase 2
 
@@ -28,16 +28,16 @@ Client → primary or backup DNS → nginx edge → Backend A or Backend B
 | Backend A | `10.7.9.8` | `10.7.30.234` |
 | nginx edge | `10.7.28.24` | `10.7.13.91` |
 | Backend B | `10.7.11.140` | `10.7.1.114` |
-| Primary DNS | `[DNS IP]` — not specified in the original allocation | `10.7.30.234` |
+| Primary DNS | not recorded in the available Phase 1 evidence | `10.7.30.234` |
 | Backup DNS | Not present in Phase 1 | `10.7.13.67` |
 
-**Do not use the Phase 1 addresses for current service configuration.** The Phase 1 DNS address remains a placeholder here; no address is inferred for it. Historical Phase 1 material below is labeled as such. Phase 2 configuration and scripts live in `Configuration_Bundle/` and `Helper_Scripts/Phase2/`.
+**Do not use the Phase 1 addresses for current service configuration.** The Phase 1 DNS address was not recorded in the available evidence; no address is inferred for it. Historical Phase 1 material below is labeled as such. Phase 2 configuration and scripts live in `Configuration_Bundle/` and `Helper_Scripts/Phase2/`.
 
 ---
 
 ## Phase 1 — Original implementation (historical)
 
-The following numbered chapters document the original Phase 1 build. Their Backend A, edge, and Backend B addresses are historical and have been superseded by the Phase 2 allocation above. Any Phase 1 DNS address shown as `[Phase 1 DNS IP]` was not provided as a confirmed value.
+The following numbered chapters document the original Phase 1 build. Their Backend A, edge, and Backend B addresses are historical and have been superseded by the Phase 2 allocation above. The Phase 1 DNS IP was not captured in the available evidence and is not invented below.
 
 # 1. Project Overview
 
@@ -59,7 +59,7 @@ Client
    | DNS Query
    v
 Private DNS Server
-[Phase 1 DNS IP]
+Phase 1 address not recorded
    |
    | app.teamX.test → 10.7.28.24
    v
@@ -106,7 +106,7 @@ nginx acts as the single entry point and distributes requests between Backend A 
 **Team Member:** Mishti
 
 ```text
-IP:        [Phase 1 DNS IP]
+IP:        not recorded in available Phase 1 evidence
 Interface: en0
 Service:   dnsmasq
 Port:      53
@@ -186,7 +186,7 @@ GET /
 GET /api/status
 ```
 
-Example response from `/api/status`:
+Backend A returns this JSON body from `/api/status`:
 
 ```json
 {
@@ -230,7 +230,7 @@ GET /
 GET /api/status
 ```
 
-Example response from `/api/status`:
+Backend B returns this JSON body from `/api/status`:
 
 ```json
 {
@@ -261,7 +261,7 @@ Express generates an `ETag` response header for the JSON response.
         v                     v                     v
    Mishti                  Aditya                Nishtha
    DNS Server              nginx Edge             Backend A
-   [Phase 1 DNS IP]              10.7.28.24             10.7.9.8
+   DNS IP not recorded       10.7.28.24             10.7.9.8
    dnsmasq :53             HTTPS :443             HTTP :3001
         |                     |
         |                     |
@@ -289,7 +289,7 @@ A normal request follows these stages:
 1. Client requests app.teamX.test
                 |
                 v
-2. DNS query is sent to [Phase 1 DNS IP]
+2. DNS query is sent to the Phase 1 resolver (address not recorded)
                 |
                 v
 3. DNS returns 10.7.28.24
@@ -319,11 +319,7 @@ This allows the project to demonstrate multiple layers of the network stack usin
 
 # 6. Private DNS Configuration
 
-The private DNS server runs dnsmasq on:
-
-```text
-[Phase 1 DNS IP]
-```
+The Phase 1 DNS host ran dnsmasq on port 53. Its IP address was not recorded in the available evidence.
 
 The configuration is stored in:
 
@@ -350,25 +346,11 @@ Expected result:
 app.teamX.test.    A    10.7.28.24
 ```
 
-To explicitly query the project DNS server:
-
-```bash
-# Historical example only: the Phase 1 DNS IP was not recorded, so this query is not replayable.
-```
-
-The DNS server should appear as:
-
-```text
-SERVER: [Phase 1 DNS IP]#53
-```
+The Phase 1 resolver address was not recorded, so a historical direct `dig @server` command cannot be supplied. Current Phase 2 direct queries use the resolver addresses in `Helper_Scripts/Phase2/config.sh`.
 
 ### Configure a client Mac to use the project DNS
 
-```bash
-# Historical setup omitted: Phase 1 DNS address was not recorded.
-sudo dscacheutil -flushcache
-sudo killall -HUP mDNSResponder
-```
+The original Phase 1 client resolver address is unavailable in the evidence. For the current Phase 2 client DNS setup, follow `Configuration_Bundle/client/CLIENT_DNS_SETUP.md`. macOS cache flush commands are documented there and in the Phase 2 DNS helper.
 
 Verify:
 
@@ -500,7 +482,7 @@ brew services restart nginx
 
 The backends identify themselves using the `X-Backend` header.
 
-Example responses:
+Requests handled by Backend A or Backend B return the corresponding `X-Backend` value:
 
 ```text
 X-Backend: A
@@ -610,7 +592,7 @@ Cache-Control: max-age=60
 
 Express also generates an `ETag` for the JSON response.
 
-Example headers include:
+For this JSON response, Express sends `Cache-Control: max-age=60` and generates a weak ETag whose value depends on the response body:
 
 ```text
 Cache-Control: max-age=60
@@ -722,7 +704,7 @@ app.teamX.test
 The private DNS server:
 
 ```text
-[Phase 1 DNS IP]
+not recorded in the available Phase 1 evidence
 ```
 
 returns:
@@ -821,7 +803,7 @@ The complete system should be started in this order:
 Start dnsmasq on:
 
 ```text
-[Phase 1 DNS IP]
+not recorded in the available Phase 1 evidence
 ```
 
 ### 2. Backend A — Mac 3
@@ -854,7 +836,7 @@ brew services restart nginx
 Point the client to:
 
 ```text
-[Phase 1 DNS IP — unavailable]
+The Phase 1 DNS address was not recorded in the available evidence; this historical setup cannot be replayed by IP.
 ```
 
 This Phase 1 step cannot be replayed without the original resolver address. For the current system, use both Phase 2 resolver addresses in `Configuration_Bundle/client/CLIENT_DNS_SETUP.md`.
@@ -880,9 +862,6 @@ TeamSubnetCN-main/
 │   ├── dnsmasq/
 │   │   ├── dnsmasq.conf
 │   │   └── phase2-backup-dnsmasq.conf
-│   ├── firewall/
-│   │   ├── backend-a-pf.conf
-│   │   └── backend-b-pf.conf
 │   ├── nginx/
 │   │   ├── teamx.conf
 │   │   ├── phase2-ha.conf
@@ -898,7 +877,6 @@ TeamSubnetCN-main/
 │       ├── firewall/
 │       ├── ha/
 │       ├── edge-migration/
-│       └── diagnostics/
 ├── backends/
 │   ├── backend-a/ (Express service, package.json, package-lock.json)
 │   └── backend-b/ (Express service, package.json, package-lock.json)
@@ -999,7 +977,7 @@ The Phase 1 implementation demonstrates practical understanding of:
 The main objective is to understand what happens to a request from the moment a private domain is resolved until the final HTTPS response is returned through the network.
 
 
-# Phase 2 — Resilience, isolation, and diagnosis
+# Phase 2 — Resilience, isolation, and controlled migration
 
 Phase 2 keeps the Phase 1 service and application architecture while using the updated addresses shown at the top of this README. Primary DNS and Backend A intentionally run on the same Mac (`10.7.30.234`); DNS listens on port 53 and Backend A listens on port 3001.
 
@@ -1014,15 +992,15 @@ dig @10.7.30.234 app.teamX.test +noall +answer +ttlid
 dig @10.7.13.67 app.teamX.test +noall +answer +ttlid
 ```
 
-The failover helper asks the operator to stop primary dnsmasq manually, then checks direct resolver answers and the system resolver separately. It does not stop services itself.
+Run `Helper_Scripts/Phase2/dns/test_primary_dns.sh` and `test_backup_dns.sh` to verify both names against each resolver. `test_dns_failover.sh before` records the healthy baseline. Stop primary dnsmasq manually on Nishtha’s Mac, then run `test_dns_failover.sh after-primary-stop`; it verifies the backup directly and prints the macOS resolver view. The helper never stops services. A system answer may still be cached or may reflect macOS resolver selection, so direct backup success and system resolver behavior are reported separately.
 
 ### B. TTL and controlled DNS changes
 
-Use `Helper_Scripts/Phase2/dns/change_dns_record.sh` with the resolver’s dnsmasq configuration and a temporary IPv4 address. The script saves a `.phase2-original` copy before changing the `app` record. Repeat the change on both DNS servers, validate/restart dnsmasq manually, and compare direct DNS answers with client/system answers. Existing client caches may retain the old answer until TTL expiry. `flush_macos_dns_cache.sh` requests a local cache flush after explicit confirmation; `restore_dns_record.sh` restores the saved original configuration.
+Run `sudo Helper_Scripts/Phase2/dns/change_dns_record.sh DNSMASQ_CONFIG NEW_APP_IP [NEW_API_IP]` on each resolver Mac. It captures direct answers before the change, updates both application records (the API IP defaults to the app IP), validates the new dnsmasq file, and asks for explicit confirmation before writing. Restart dnsmasq manually, then query both resolvers with `test_dns_ttl.sh`; direct server answers update before client caches do. `dscacheutil` output is shown separately because it may remain cached. `flush_macos_dns_cache.sh` requests a local cache flush after explicit confirmation. `sudo Helper_Scripts/Phase2/dns/restore_dns_record.sh DNSMASQ_CONFIG` restores the saved full configuration, including both records; run it on both DNS Macs to roll back the demonstration. The evidenced Homebrew config paths are `/opt/homebrew/etc/dnsmasq.conf` on primary DNS and `/opt/homebrew/etc/dnsmasq-backup.conf` on backup DNS; the backup resolver was run with its separate `--conf-file` process.
 
 ### C. Backend service isolation
 
-The PF templates restrict incoming TCP ports 3001 and 3002 to the edge (`10.7.13.91`) while retaining loopback access. The apply script has a dry-run mode, requires typing `YES` before applying, backs up `/etc/pf.conf` and the existing `teamphase2` anchor, and loads only that anchor. It stops if the expected anchor hook is missing. Verification should first show both ports allowed from the edge, then blocked from a client. Roll back from the saved anchor backup after the demonstration.
+The parameterized apply script generates PF rules from the shared configuration and restricts ports 3001 and 3002 to the edge (`10.7.13.91`) while retaining loopback access. The apply script has a `--dry-run` mode, requires typing `YES`, backs up the existing `teamphase2` anchor, and loads only that anchor. It reads `/etc/pf.conf` to confirm the existing anchor hook and does not modify or back up the base configuration. It stops if the expected hook is missing. If PF was disabled, it records its own enable reference so rollback can release only that reference. If standby migration is being prepared, set the confirmed `STANDBY_EDGE_IP` when applying rules on both backend hosts so the temporary standby can reach the services. For the isolation check, first run `verify_backend_isolation.sh edge` and confirm both ports are reachable, then run it from a separate client and confirm both are blocked. Restore the saved anchor backup after the demonstration; when both backend rules were installed, roll back in reverse order.
 
 ### D. Backend high availability
 
@@ -1030,11 +1008,7 @@ The nginx upstream in `Configuration_Bundle/nginx/teamx.conf` uses Backend A `10
 
 ### E. Standby edge migration
 
-`Configuration_Bundle/nginx/standby-edge.conf` provides a separate nginx configuration using the Phase 2 backend upstreams. Set `STANDBY_EDGE_IP` only after choosing and confirming the standby Mac’s current address. Install the existing certificate and key securely on that machine; private key material is not committed. `test_edge_cutover.sh` and `rollback_edge_migration.sh` guide the DNS record change and restoration on both resolvers. Clients with cached DNS answers can continue reaching the old edge until their cached TTL expires. This migration provides a recovery path but does not eliminate every single point of failure.
-
-### F. Faculty-injected troubleshooting
-
-Run `Helper_Scripts/Phase2/diagnostics/troubleshoot_network.sh` for the ordered checks: DNS, TCP, TLS/certificate hostname validation, HTTP/application response, and direct backend availability. It reports findings without changing DNS or firewall settings.
+`Configuration_Bundle/nginx/standby-edge.conf` provides a separate nginx configuration using the Phase 2 backend upstreams. Set `STANDBY_EDGE_IP` only after confirming the standby Mac address. Install the existing certificate and key securely; private key material is not committed. On the standby Mac, set `STANDBY_EDGE_IP` to its confirmed interface address and run `validate_standby_edge.sh "$STANDBY_EDGE_IP"` before changing DNS. It validates nginx syntax, certificate SANs and key match, backend reachability, current DNS answers, and HTTPS requests pinned to the standby while checking the certificate. Then, on each DNS Mac, run `sudo Helper_Scripts/Phase2/dns/change_dns_record.sh /opt/homebrew/etc/dnsmasq.conf "$STANDBY_EDGE_IP"` for primary or `sudo Helper_Scripts/Phase2/dns/change_dns_record.sh /opt/homebrew/etc/dnsmasq-backup.conf "$STANDBY_EDGE_IP"` for backup; this changes both `app` and `api` records after confirmation. Restart primary with `sudo brew services restart dnsmasq`; restart the separately launched backup dnsmasq process using its `--conf-file` command. Run the cutover verification on the standby Mac. Run `test_edge_cutover.sh "$STANDBY_EDGE_IP"` to verify both records on both resolvers and TLS-validated HTTPS for both hostnames. Cached clients may continue reaching the old edge until their TTL expires. Roll back on each DNS Mac with `Helper_Scripts/Phase2/edge-migration/rollback_edge_migration.sh restore primary /opt/homebrew/etc/dnsmasq.conf` on the primary Mac and `Helper_Scripts/Phase2/edge-migration/rollback_edge_migration.sh restore backup /opt/homebrew/etc/dnsmasq-backup.conf` on the backup Mac, then restart both resolvers manually and run `Helper_Scripts/Phase2/edge-migration/rollback_edge_migration.sh verify` to confirm both names on both servers return the original Phase 2 edge. This is a controlled DNS migration, not automatic edge failover, and it does not eliminate every single point of failure.
 
 ## Phase 2 helper toolkit
 
@@ -1044,8 +1018,7 @@ Helper_Scripts/Phase2/
 ├── dns/                      # resolver checks, TTL, controlled change/restore, cache flush
 ├── firewall/                 # PF apply, verify, and rollback
 ├── ha/                       # backend health and failover demonstration
-├── edge-migration/           # standby validation, cutover, and rollback
-└── diagnostics/              # layered troubleshooting
+└── edge-migration/           # standby validation, cutover, and rollback
 ```
 
-The current Phase 2 addresses are centralized for scripts in `Helper_Scripts/Phase2/config.sh`. Nginx and dnsmasq configurations use their native static syntax and must be kept synchronized with that shared allocation when addresses change. The live DNS, HTTPS, backend failover, PF isolation, and edge migration demonstrations must be run on the team Macs; a successful syntax check alone does not demonstrate LAN failover.
+The current Phase 2 addresses are centralized for scripts in `Helper_Scripts/Phase2/config.sh`. Nginx and dnsmasq configurations use their native static syntax and must be kept synchronized with that shared allocation when addresses change. The DNS, HTTPS, backend failover, PF isolation, and edge migration demonstrations must be run on the team Macs; a successful syntax check alone does not demonstrate LAN failover.

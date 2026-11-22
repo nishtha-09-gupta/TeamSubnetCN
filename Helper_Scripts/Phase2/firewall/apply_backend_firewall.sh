@@ -13,8 +13,7 @@ case "$role" in A) ip=$BACKEND_A_IP; port=$BACKEND_A_PORT;; B) ip=$BACKEND_B_IP;
 pf_conf=/etc/pf.conf
 anchor_file=/etc/pf.anchors/teamphase2
 anchor_name=teamphase2
-stamp=$(date +%Y%m%d%H%M%S)
-pf_backup="${pf_conf}.teamx-phase2.${stamp}.bak"
+stamp="$(date +%Y%m%d%H%M%S)-$$"
 anchor_backup="${anchor_file}.teamx-phase2.${stamp}.bak"
 tmp=$(mktemp "${TMPDIR:-/tmp}/teamx-pf.XXXXXX") || exit 1
 trap 'rm -f "$tmp"' EXIT
@@ -28,32 +27,45 @@ awk -v start="# BEGIN TEAMX PHASE2 BACKEND $role" -v finish="# END TEAMX PHASE2 
   $0 == finish {skip=0; next}
   !skip {print}
 ' "$anchor_file" > "$tmp" || exit 1
-cat >> "$tmp" <<EOF_RULES
-# BEGIN TEAMX PHASE2 BACKEND $role
-pass in quick on $EDGE_INTERFACE inet proto tcp from $EDGE_IP to $ip port $port flags S/SA keep state
-EOF_RULES
+printf '# BEGIN TEAMX PHASE2 BACKEND %s\n' "$role" >> "$tmp"
+append_rule() {
+  if ! grep -Fxq "$1" "$tmp"; then printf '%s\n' "$1" >> "$tmp"; fi
+}
+append_rule "pass in quick on $EDGE_INTERFACE inet proto tcp from $EDGE_IP to $ip port = $port flags S/SA keep state"
 if [[ -n "$STANDBY_EDGE_IP" && "$STANDBY_EDGE_IP" != "$EDGE_IP" ]]; then
-  printf 'pass in quick on %s inet proto tcp from %s to %s port %s flags S/SA keep state\n' "$EDGE_INTERFACE" "$STANDBY_EDGE_IP" "$ip" "$port" >> "$tmp"
+  append_rule "pass in quick on $EDGE_INTERFACE inet proto tcp from $STANDBY_EDGE_IP to $ip port = $port flags S/SA keep state"
 fi
-cat >> "$tmp" <<EOF_RULES
-pass in quick on lo0 inet proto tcp from any to any port $port keep state
-block drop in quick on $EDGE_INTERFACE inet proto tcp from any to any port $port
-# END TEAMX PHASE2 BACKEND $role
-EOF_RULES
+append_rule "pass in quick on lo0 inet proto tcp from any to any port = $port keep state"
+append_rule "block drop in quick on $EDGE_INTERFACE inet proto tcp from any to any port $port"
+printf '# END TEAMX PHASE2 BACKEND %s\n' "$role" >> "$tmp"
 
 cat <<EOF_PLAN
 Plan: restrict Backend $role at $ip:$port to edge $EDGE_IP${STANDBY_EDGE_IP:+ and standby $STANDBY_EDGE_IP}.
-Will back up $pf_conf and $anchor_file, then load only the existing '$anchor_name' anchor.
+Will back up only $anchor_file, then load only the existing '$anchor_name' anchor.
 The base pf.conf is not rewritten or reloaded; unrelated system rules are not flushed.
 EOF_PLAN
 pfctl -vnf "$tmp" || { echo 'FAIL: candidate anchor rules did not validate; no changes made.' >&2; exit 1; }
 if (( dry_run )); then echo 'Dry run passed; no files or firewall state changed.'; exit 0; fi
 printf 'Apply this backend firewall change? [type YES] '; read -r answer
 [[ "$answer" == YES ]] || { echo 'No changes applied.'; exit 1; }
-sudo cp -p "$pf_conf" "$pf_backup" && sudo cp -p "$anchor_file" "$anchor_backup" || exit 1
+sudo cp -p "$anchor_file" "$anchor_backup" || exit 1
+echo "Saved anchor: $anchor_backup"
 sudo cp "$tmp" "$anchor_file" || exit 1
 sudo pfctl -a "$anchor_name" -f "$anchor_file" || { echo "Load failed. Restore anchor with: rollback_backend_firewall.sh $role $anchor_backup" >&2; exit 1; }
-sudo pfctl -E || { echo 'Rules loaded in anchor, but enabling PF reported a failure.' >&2; exit 1; }
-echo "Applied. Base-config backup: $pf_backup"
-echo "Anchor backup: $anchor_backup"
+pf_status=$(sudo pfctl -s info 2>/dev/null | awk -F: '/Status:/ {gsub(/[[:space:]]/, "", $2); print $2; exit}')
+if [[ "$pf_status" == Disabled ]]; then
+  enable_output=$(sudo pfctl -E 2>&1) || { echo "Rules loaded, but PF could not be enabled. Restore using $anchor_backup" >&2; exit 1; }
+  enable_token=$(printf '%s\n' "$enable_output" | awk -F: '/Token/ {gsub(/[[:space:]]/, "", $2); print $2; exit}')
+  if [[ -n "$enable_token" ]]; then
+    printf '%s\n' "$enable_token" | sudo tee "${anchor_backup}.pf-token" >/dev/null || exit 1
+  else
+    echo "FAIL: PF enabled but no reference token was returned. Restore anchor with $anchor_backup and review pfctl output:" >&2
+    printf '%s\n' "$enable_output" >&2
+    exit 1
+  fi
+elif [[ "$pf_status" != Enabled ]]; then
+  echo "FAIL: could not determine PF status ($pf_status); anchor loaded but PF enable state was not changed. Restore anchor with $anchor_backup." >&2
+  exit 1
+fi
+echo "Applied. Anchor backup: $anchor_backup"
 echo "Rollback: sudo $HERE/rollback_backend_firewall.sh $role $anchor_backup"

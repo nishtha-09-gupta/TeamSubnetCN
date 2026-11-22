@@ -1,30 +1,51 @@
-# Launching the backends
+# Phase 2 service launch
 
-Current Phase 2 allocation: Backend A and primary DNS share Nishtha’s Mac at `10.7.30.234`; Backend B is Shrijan’s Mac at `10.7.1.114`. The Phase 1 Backend A (`10.7.9.8`), Backend B (`10.7.11.140`), and edge (`10.7.28.24`) addresses are historical and must not be used for the current deployment. The Phase 1 DNS address is not confirmed here.
+The Phase 2 allocation is: Nishtha `10.7.30.234` (primary DNS and Backend A), Mishti `10.7.13.67` (backup DNS), Aditya `10.7.13.91` (nginx edge), and Shrijan `10.7.1.114` (Backend B). DNS and Backend A are separate services sharing Nishtha’s Mac. The Phase 1 backend and edge addresses are historical and are not used by these commands. The original Phase 1 DNS IP was not provided.
 
-Requires Node.js. Backends bind to 0.0.0.0 so Mac 2 can reach them over the LAN.
+Run the backend commands from the repository root. Both services bind to `0.0.0.0` on the existing ports.
 
-## Backend A (Nishtha, 10.7.30.234, port 3001)
+## Backend A — Nishtha, port 3001
+
 ```bash
-cd 3_Backend_Source_Code/backend-a
+cd backends/backend-a
 npm install
 node backend-A.js
 ```
 
-## Backend B (Shrijan, 10.7.1.114, port 3002)
+## Backend B — Shrijan, port 3002
+
 ```bash
-cd 3_Backend_Source_Code/backend-b
+cd backends/backend-b
 npm install
 node backend-B.js
 ```
 
-## Verify
+## Verify backend services
+
+From Nishtha’s Mac:
+
 ```bash
-lsof -nP -iTCP:3001 -sTCP:LISTEN                  # on Mac 3
-curl -i http://10.7.30.234:3001/api/status            # from another Mac
-curl -i http://10.7.1.114:3002/api/status         # from another Mac
+lsof -nP -iTCP:3001 -sTCP:LISTEN
+curl -i http://10.7.30.234:3001/api/status
 ```
-Expected: `{"backend":"A","status":"ok"}` with `X-Backend: A` (or B).
+
+From Shrijan’s Mac:
+
+```bash
+lsof -nP -iTCP:3002 -sTCP:LISTEN
+curl -i http://10.7.1.114:3002/api/status
+```
+
+From the nginx edge, both status endpoints should return the matching backend identifier and `X-Backend` response header.
+
+## DNS configuration files
+
+Install `Configuration_Bundle/dnsmasq/dnsmasq.conf` as the primary config at `$(brew --prefix)/etc/dnsmasq.conf`. Install `Configuration_Bundle/dnsmasq/phase2-backup-dnsmasq.conf` on Mishti’s Mac as `$(brew --prefix)/etc/dnsmasq-backup.conf`. Preserve any unrelated local dnsmasq settings when installing. Validate each file with `dnsmasq --test --conf-file=PATH` before starting its resolver.
 
 ## Start order
-1. Mac 1: dnsmasq  2. Mac 3 and Mac 4: backends  3. Mac 2: nginx (`nginx -t && brew services restart nginx`)
+
+1. On Nishtha’s Mac, start primary dnsmasq with `brew services restart dnsmasq`, then start Backend A.
+2. On Mishti’s Mac, run the backup resolver in its separate foreground process: `sudo "$(brew --prefix)/sbin/dnsmasq" --no-daemon --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"`.
+3. On Shrijan’s Mac, start Backend B.
+4. On Aditya’s Mac, validate and start nginx: `nginx -t && brew services restart nginx`.
+5. On client Macs, configure both DNS resolvers using `client/CLIENT_DNS_SETUP.md`.

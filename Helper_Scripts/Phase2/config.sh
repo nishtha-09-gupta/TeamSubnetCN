@@ -13,6 +13,7 @@ BACKEND_A_PORT=${BACKEND_A_PORT:-3001}
 BACKEND_B_PORT=${BACKEND_B_PORT:-3002}
 HTTPS_PORT=${HTTPS_PORT:-443}
 DNS_TTL=${DNS_TTL:-30}
+DNSMASQ_BIN=${DNSMASQ_BIN:-/opt/homebrew/sbin/dnsmasq}
 TLS_CERT=${TLS_CERT:-/opt/homebrew/etc/nginx/certs/edge.crt}
 TLS_KEY=${TLS_KEY:-/opt/homebrew/etc/nginx/certs/edge.key}
 EDGE_INTERFACE=${EDGE_INTERFACE:-en0}

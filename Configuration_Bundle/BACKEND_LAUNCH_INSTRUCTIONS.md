@@ -1,6 +1,6 @@
 # Phase 2 service launch
 
-The Phase 2 allocation is: Nishtha `10.7.30.234` (primary DNS and Backend A), Mishti `10.7.13.67` (backup DNS), Aditya `10.7.13.91` (nginx edge), and Shrijan `10.7.1.114` (Backend B). DNS and Backend A are separate services sharing Nishtha’s Mac. The Phase 1 backend and edge addresses are historical and are not used by these commands. The original Phase 1 DNS IP was not provided.
+The Phase 2 allocation is: Nishtha `10.7.30.234` (primary DNS and Backend A), Mishti `10.7.13.67` (backup DNS), Aditya `10.7.13.91` (nginx edge), and Shrijan `10.7.1.114` (Backend B). DNS and Backend A are separate services sharing Nishtha’s Mac. The Phase 1 backend and edge addresses are historical and are not used by these commands. The Phase 1 DNS resolver was hosted on Mishti’s Mac at `10.7.30.18`; that historical address is not used by these Phase 2 commands.
 
 Run the backend commands from the repository root. Both services bind to `0.0.0.0` on the existing ports.
 

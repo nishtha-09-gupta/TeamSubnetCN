@@ -38,10 +38,10 @@ Primary DNS and Backend A intentionally share Nishtha’s Mac and IP address. Th
 | Backend A | `10.7.9.8` | `10.7.30.234` |
 | nginx edge | `10.7.28.24` | `10.7.13.91` |
 | Backend B | `10.7.11.140` | `10.7.1.114` |
-| Primary DNS | Not recorded in available Phase 1 evidence | `10.7.30.234` |
+| Primary DNS | `10.7.30.18` | `10.7.30.234` |
 | Backup DNS | Not part of the Phase 1 allocation | `10.7.13.67` |
 
-The Phase 1 DNS address is intentionally unspecified because the available evidence does not record it. Phase 1 addresses appear only in historical descriptions and evidence; do not copy them into current configuration.
+Mishti’s Mac at `10.7.30.18` hosted the Phase 1 dnsmasq resolver. Phase 1 addresses are historical; do not copy them into the current Phase 2 configuration.
 
 ### Current service names
 
@@ -332,16 +332,27 @@ The verify mode reports rollback as complete only when both names on both resolv
 
 Phase 1 is the historical baseline preserved in the repository. Its addresses below must not be used for the current Phase 2 deployment.
 
-### Phase 1 machine roles
+### 2.1 Phase 1 machine roles
 
 | Team member | Phase 1 role | Historical address | Service |
 |---|---|---:|---|
-| Mishti | Primary/private DNS | Not recorded in available evidence | dnsmasq on 53 |
+| Mishti | Primary/private DNS | `10.7.30.18` | dnsmasq on 53 |
 | Aditya | nginx edge | `10.7.28.24` | nginx; HTTPS on 443 |
 | Nishtha | Backend A | `10.7.9.8` | Express on 3001 |
 | Shrijan | Backend B | `10.7.11.140` | Express on 3002 |
 
-The original Phase 1 DNS records mapped `app.teamX.test` and `api.teamX.test` to the Phase 1 edge, `10.7.28.24`. The Phase 1 DNS server’s own IP was not captured in the available evidence, so no address or direct-server command is inferred here.
+Mishti’s Mac at `10.7.30.18` hosted the Phase 1 dnsmasq resolver. Its records mapped `app.teamX.test` and `api.teamX.test` to the Phase 1 nginx edge at `10.7.28.24`.
+
+### 2.2 IP and Interface Inventory
+
+The following table records the verified Phase 1 private network interface inventory. The Phase 1 DNS resolver was hosted on Mishti’s Mac at `10.7.30.18`.
+
+| Machine | Team Member | Private IPv4 | Subnet Mask | CIDR | Gateway | Interface | MAC Address |
+|---|---|---|---|---|---|---|---|
+| Mac 1 | Mishti | `10.7.30.18` | `255.255.224.0` | `/19` | `10.7.0.1` | `en0 (Wi-Fi)` | `10:9f:41:bb:07:30` |
+| Mac 2 | Aditya | `10.7.28.24` | `255.255.224.0` | `/19` | `10.7.0.1` | `en0 (Wi-Fi)` | `10:9f:41:c2:53:b9` |
+| Mac 3 | Nishtha | `10.7.9.8` | `255.255.224.0` | `/19` | `10.7.0.1` | `en0 (Wi-Fi)` | `5e:a6:1d:c8:9e:5f` |
+| Mac 4 | Shrijan | `10.7.11.140` | `255.255.224.0` | `/19` | `10.7.0.1` | `en0 (Wi-Fi)` | `10:9f:41:be:b0:16` |
 
 ### Phase 1 architecture and features
 
@@ -351,7 +362,7 @@ The original Phase 1 path was:
 Client
   │  DNS lookup for app.teamX.test or api.teamX.test
   ▼
-Private dnsmasq resolver (IP not recorded in available evidence)
+Private dnsmasq resolver (Mishti, `10.7.30.18`)
   │  both names resolved to 10.7.28.24
   ▼
 nginx edge (10.7.28.24:443)
@@ -382,7 +393,7 @@ curl http://10.7.9.8:3001/api/status
 curl http://10.7.11.140:3002/api/status
 ```
 
-The old edge address was `10.7.28.24`; the original DNS server address is unavailable, so a Phase 1 direct DNS query by server IP cannot be reproduced from the repository evidence.
+The historical Phase 1 DNS server was `10.7.30.18`. For example, a direct historical query can be expressed as `dig @10.7.30.18 app.teamX.test`; this is not a current Phase 2 test command.
 
 ### DNS, TLS, caching, and packet analysis
 
@@ -454,7 +465,6 @@ The Phase 1 PDF, terminal output, screenshots, architecture images, and Wireshar
 
 ## Known limits
 
-- The Phase 1 primary DNS address is absent from available evidence.
 - macOS resolver selection and caching do not guarantee immediate DNS failover when one server stops.
 - DNS record edits affect authoritative/local dnsmasq data first; client caches may retain older answers until expiry or deliberate flush.
 - PF enforcement, DNS failover, backend outage/recovery, and edge migration require manual tests on the assigned Macs. Static checks do not establish live LAN behavior.

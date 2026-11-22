@@ -1,39 +1,43 @@
 # TeamSubnetCN
 
-## Computer Networks Course Project — Phase 1
+## Computer Networks Course Project — Phase 1 and Phase 2
 
-A private network service platform built using four macOS laptops connected over the same LAN.
+**Private Network Service Platform** built across four macOS laptops on a private LAN. Phase 1 established private DNS, two Express backends, an nginx HTTPS edge, load balancing, caching, and packet analysis. Phase 2 adds a backup DNS resolver, controlled DNS changes, backend isolation, backend failover, standby-edge migration, and layered troubleshooting.
 
-The project focuses on the networking path of a client request:
+## Current deployment — Phase 2
 
-**DNS → TCP → TLS → HTTPS → nginx Reverse Proxy → Load Balancing → Backend**
+Use these addresses for the running Phase 2 network and all current configuration. Primary DNS and Backend A intentionally share Nishtha’s Mac; they are separate services on the same host.
 
-The application layer is intentionally minimal. The main objective is to demonstrate practical concepts from Computer Networks including private DNS, TCP connectivity, TLS, HTTPS, reverse proxying, load balancing, HTTP caching, and packet analysis using Wireshark.
-
----
-
-## Team Members and Machine Roles
-
-| Team Member | Machine Role | Private IP | Interface |
+| Team member | Current role | Phase 2 IP | Service |
 |---|---|---:|---|
-| Nishtha Gupta | Backend A | `10.7.9.8` | `en0` |
-| Aditya | Edge / nginx / Load Balancer | `10.7.28.24` | `en0` |
-| Shrijan | Backend B | `10.7.11.140` | `en0` |
-| Mishti | Private DNS Server | `10.7.30.18` | `en0` |
+| Nishtha | Primary DNS + Backend A | `10.7.30.234` | dnsmasq `53`, Express `3001` |
+| Mishti | Backup DNS | `10.7.13.67` | dnsmasq `53` |
+| Aditya | nginx edge | `10.7.13.91` | nginx `80`, `443` |
+| Shrijan | Backend B | `10.7.1.114` | Express `3002` |
 
-### Common Network Configuration
+The private service names `app.teamX.test` and `api.teamX.test` both resolve to the current edge, `10.7.13.91`. The request path is:
 
 ```text
-Network:        10.7.0.0/19
-Subnet Mask:    255.255.224.0
-Gateway:        10.7.0.1
-DNS Server:     10.7.30.18
-Domain:         app.teamX.test
+Client → primary or backup DNS → nginx edge → Backend A or Backend B
 ```
 
-The project uses the reserved `.test` domain for the private network environment.
+### Phase 1 to Phase 2 IP change
+
+| Role | Phase 1 original allocation | Phase 2 current allocation |
+|---|---:|---:|
+| Backend A | `10.7.9.8` | `10.7.30.234` |
+| nginx edge | `10.7.28.24` | `10.7.13.91` |
+| Backend B | `10.7.11.140` | `10.7.1.114` |
+| Primary DNS | `[DNS IP]` — not specified in the original allocation | `10.7.30.234` |
+| Backup DNS | Not present in Phase 1 | `10.7.13.67` |
+
+**Do not use the Phase 1 addresses for current service configuration.** The Phase 1 DNS address remains a placeholder here; no address is inferred for it. Historical Phase 1 material below is labeled as such. Phase 2 configuration and scripts live in `Configuration_Bundle/` and `Helper_Scripts/Phase2/`.
 
 ---
+
+## Phase 1 — Original implementation (historical)
+
+The following numbered chapters document the original Phase 1 build. Their Backend A, edge, and Backend B addresses are historical and have been superseded by the Phase 2 allocation above. Any Phase 1 DNS address shown as `[Phase 1 DNS IP]` was not provided as a confirmed value.
 
 # 1. Project Overview
 
@@ -55,7 +59,7 @@ Client
    | DNS Query
    v
 Private DNS Server
-10.7.30.18
+[Phase 1 DNS IP]
    |
    | app.teamX.test → 10.7.28.24
    v
@@ -102,7 +106,7 @@ nginx acts as the single entry point and distributes requests between Backend A 
 **Team Member:** Mishti
 
 ```text
-IP:        10.7.30.18
+IP:        [Phase 1 DNS IP]
 Interface: en0
 Service:   dnsmasq
 Port:      53
@@ -257,7 +261,7 @@ Express generates an `ETag` response header for the JSON response.
         v                     v                     v
    Mishti                  Aditya                Nishtha
    DNS Server              nginx Edge             Backend A
-   10.7.30.18              10.7.28.24             10.7.9.8
+   [Phase 1 DNS IP]              10.7.28.24             10.7.9.8
    dnsmasq :53             HTTPS :443             HTTP :3001
         |                     |
         |                     |
@@ -285,7 +289,7 @@ A normal request follows these stages:
 1. Client requests app.teamX.test
                 |
                 v
-2. DNS query is sent to 10.7.30.18
+2. DNS query is sent to [Phase 1 DNS IP]
                 |
                 v
 3. DNS returns 10.7.28.24
@@ -318,7 +322,7 @@ This allows the project to demonstrate multiple layers of the network stack usin
 The private DNS server runs dnsmasq on:
 
 ```text
-10.7.30.18
+[Phase 1 DNS IP]
 ```
 
 The configuration is stored in:
@@ -349,19 +353,19 @@ app.teamX.test.    A    10.7.28.24
 To explicitly query the project DNS server:
 
 ```bash
-dig @10.7.30.18 app.teamX.test
+# Historical example only: the Phase 1 DNS IP was not recorded, so this query is not replayable.
 ```
 
 The DNS server should appear as:
 
 ```text
-SERVER: 10.7.30.18#53
+SERVER: [Phase 1 DNS IP]#53
 ```
 
 ### Configure a client Mac to use the project DNS
 
 ```bash
-sudo networksetup -setdnsservers Wi-Fi 10.7.30.18
+# Historical setup omitted: Phase 1 DNS address was not recorded.
 sudo dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 ```
@@ -718,7 +722,7 @@ app.teamX.test
 The private DNS server:
 
 ```text
-10.7.30.18
+[Phase 1 DNS IP]
 ```
 
 returns:
@@ -781,7 +785,7 @@ Before testing the complete application, basic LAN connectivity can be checked.
 From a client:
 
 ```bash
-ping -c 4 10.7.30.18
+# Historical DNS host address was not recorded; skip this Phase 1 ping.
 ping -c 4 10.7.28.24
 ping -c 4 10.7.9.8
 ping -c 4 10.7.11.140
@@ -817,7 +821,7 @@ The complete system should be started in this order:
 Start dnsmasq on:
 
 ```text
-10.7.30.18
+[Phase 1 DNS IP]
 ```
 
 ### 2. Backend A — Mac 3
@@ -850,14 +854,10 @@ brew services restart nginx
 Point the client to:
 
 ```text
-10.7.30.18
+[Phase 1 DNS IP — unavailable]
 ```
 
-Then verify:
-
-```bash
-dig @10.7.30.18 app.teamX.test
-```
+This Phase 1 step cannot be replayed without the original resolver address. For the current system, use both Phase 2 resolver addresses in `Configuration_Bundle/client/CLIENT_DNS_SETUP.md`.
 
 ### 6. Test the complete path
 
@@ -873,54 +873,39 @@ The repository is organised as follows:
 
 ```text
 TeamSubnetCN-main/
-│
 ├── README.md
-│
 ├── Configuration_Bundle/
 │   ├── BACKEND_LAUNCH_INSTRUCTIONS.md
-│   │
-│   ├── client/
-│   │   └── CLIENT_DNS_SETUP.md
-│   │
+│   ├── client/CLIENT_DNS_SETUP.md
 │   ├── dnsmasq/
-│   │   └── dnsmasq.conf
-│   │
+│   │   ├── dnsmasq.conf
+│   │   └── phase2-backup-dnsmasq.conf
+│   ├── firewall/
+│   │   ├── backend-a-pf.conf
+│   │   └── backend-b-pf.conf
 │   ├── nginx/
-│   │   └── teamx.conf
-│   │
-│   └── tls/
-│       └── TLS_SETUP_NOTES.md
-│
+│   │   ├── teamx.conf
+│   │   ├── phase2-ha.conf
+│   │   └── standby-edge.conf
+│   └── tls/TLS_SETUP_NOTES.md
 ├── Helper_Scripts/
-│   ├── test_caching.sh
-│   ├── test_dns_and_ports.sh
-│   └── test_roundrobin.sh
-│
+│   ├── test_caching.sh                  # original Phase 1 check
+│   ├── test_dns_and_ports.sh            # updated to current Phase 2 IPs
+│   ├── test_roundrobin.sh               # original Phase 1 check
+│   └── Phase2/
+│       ├── config.sh
+│       ├── dns/
+│       ├── firewall/
+│       ├── ha/
+│       ├── edge-migration/
+│       └── diagnostics/
 ├── backends/
-│   ├── backend-a/
-│   │   ├── backend-A.js
-│   │   ├── package.json
-│   │   └── package-lock.json
-│   │
-│   └── backend-b/
-│       ├── backend-B.js
-│       ├── package.json
-│       └── package-lock.json
-│
+│   ├── backend-a/ (Express service, package.json, package-lock.json)
+│   └── backend-b/ (Express service, package.json, package-lock.json)
 ├── architecture/
-│   └── network topology images
-│
-├── wireshark/
-│   ├── phase1_wireshark_dns_tcp_tls.pcapng
-│   ├── dns.png
-│   └── packet-analysis screenshots
-│
 ├── screenshots/
-│   └── terminal/evidence screenshots
-│
 ├── terminals/
-│   └── saved terminal outputs
-│
+├── wireshark/
 └── Phase1Evidence_Document.pdf
 ```
 
@@ -986,9 +971,9 @@ The purpose of the Node.js services is to make the networking behaviour observab
 
 ---
 
-# 19. Learning Objectives
+# 19. Phase 1 Learning Objectives
 
-This Phase 1 project demonstrates practical understanding of:
+The Phase 1 implementation demonstrates practical understanding of:
 
 - Private DNS and name resolution
 - IP addressing and subnetting
@@ -1007,8 +992,60 @@ This Phase 1 project demonstrates practical understanding of:
 
 ---
 
-# 20. Core Principle
+# 20. Core Principle — Both Phases
 
 > **The application stays simple. The network is the project.**
 
 The main objective is to understand what happens to a request from the moment a private domain is resolved until the final HTTPS response is returned through the network.
+
+
+# Phase 2 — Resilience, isolation, and diagnosis
+
+Phase 2 keeps the Phase 1 service and application architecture while using the updated addresses shown at the top of this README. Primary DNS and Backend A intentionally run on the same Mac (`10.7.30.234`); DNS listens on port 53 and Backend A listens on port 3001.
+
+## Phase 2 extensions
+
+### A. Backup DNS resolver
+
+`Configuration_Bundle/dnsmasq/phase2-backup-dnsmasq.conf` is for the backup resolver at `10.7.13.67`. It contains the same `app.teamX.test` and `api.teamX.test` records as the primary config, both pointing to the current edge at `10.7.13.91`. Both configs use a 30-second local TTL. Client setup lists primary and backup resolver addresses, but macOS resolver selection is not guaranteed to switch immediately. A DNS service failure can prevent name resolution while IP connectivity still works; a backend application failure leaves DNS resolution working but can produce an upstream error at nginx. Query each resolver directly to demonstrate it independently:
+
+```bash
+dig @10.7.30.234 app.teamX.test +noall +answer +ttlid
+dig @10.7.13.67 app.teamX.test +noall +answer +ttlid
+```
+
+The failover helper asks the operator to stop primary dnsmasq manually, then checks direct resolver answers and the system resolver separately. It does not stop services itself.
+
+### B. TTL and controlled DNS changes
+
+Use `Helper_Scripts/Phase2/dns/change_dns_record.sh` with the resolver’s dnsmasq configuration and a temporary IPv4 address. The script saves a `.phase2-original` copy before changing the `app` record. Repeat the change on both DNS servers, validate/restart dnsmasq manually, and compare direct DNS answers with client/system answers. Existing client caches may retain the old answer until TTL expiry. `flush_macos_dns_cache.sh` requests a local cache flush after explicit confirmation; `restore_dns_record.sh` restores the saved original configuration.
+
+### C. Backend service isolation
+
+The PF templates restrict incoming TCP ports 3001 and 3002 to the edge (`10.7.13.91`) while retaining loopback access. The apply script has a dry-run mode, requires typing `YES` before applying, backs up `/etc/pf.conf` and the existing `teamphase2` anchor, and loads only that anchor. It stops if the expected anchor hook is missing. Verification should first show both ports allowed from the edge, then blocked from a client. Roll back from the saved anchor backup after the demonstration.
+
+### D. Backend high availability
+
+The nginx upstream in `Configuration_Bundle/nginx/teamx.conf` uses Backend A `10.7.30.234:3001` and Backend B `10.7.1.114:3002`, with `max_fails=1`, `fail_timeout=10s`, proxy timeouts, and `proxy_next_upstream` retries. This is **passive failure detection based on requests**, not continuous active health checking. `Helper_Scripts/Phase2/ha/test_backend_failover.sh` displays `X-Backend` and `X-Edge` for repeated requests. Stop and restart a backend manually on its Mac; the script does not terminate a remote process.
+
+### E. Standby edge migration
+
+`Configuration_Bundle/nginx/standby-edge.conf` provides a separate nginx configuration using the Phase 2 backend upstreams. Set `STANDBY_EDGE_IP` only after choosing and confirming the standby Mac’s current address. Install the existing certificate and key securely on that machine; private key material is not committed. `test_edge_cutover.sh` and `rollback_edge_migration.sh` guide the DNS record change and restoration on both resolvers. Clients with cached DNS answers can continue reaching the old edge until their cached TTL expires. This migration provides a recovery path but does not eliminate every single point of failure.
+
+### F. Faculty-injected troubleshooting
+
+Run `Helper_Scripts/Phase2/diagnostics/troubleshoot_network.sh` for the ordered checks: DNS, TCP, TLS/certificate hostname validation, HTTP/application response, and direct backend availability. It reports findings without changing DNS or firewall settings.
+
+## Phase 2 helper toolkit
+
+```text
+Helper_Scripts/Phase2/
+├── config.sh                 # shared current IPs, ports, names, and TLS paths
+├── dns/                      # resolver checks, TTL, controlled change/restore, cache flush
+├── firewall/                 # PF apply, verify, and rollback
+├── ha/                       # backend health and failover demonstration
+├── edge-migration/           # standby validation, cutover, and rollback
+└── diagnostics/              # layered troubleshooting
+```
+
+The current Phase 2 addresses are centralized for scripts in `Helper_Scripts/Phase2/config.sh`. Nginx and dnsmasq configurations use their native static syntax and must be kept synchronized with that shared allocation when addresses change. The live DNS, HTTPS, backend failover, PF isolation, and edge migration demonstrations must be run on the team Macs; a successful syntax check alone does not demonstrate LAN failover.

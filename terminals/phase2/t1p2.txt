@@ -1,0 +1,232 @@
+Last login: Fri Nov 20 17:21:29 on ttys000
+nishthagupta@Nishthas-MacBook-Pro ~ % ifconfig en0 | grep "inet "
+nishthagupta@Nishthas-MacBook-Pro ~ % Last login: Fri Nov 20 17:21:29 on ttys000 
+nishthagupta@Nishthas-MacBook-Pro ~ % ifconfig en0 | grep "inet "
+nishthagupta@Nishthas-MacBook-Pro ~ %
+
+
+
+
+nishthagupta ttys000                         Fri 20 Nov 17:22   still logged in
+nishthagupta ttys000                         Fri 20 Nov 17:21 - 17:21  (00:00)
+nishthagupta ttys000                         Fri 20 Nov 17:15 - 17:15  (00:00)
+nishthagupta ttys000                         Thu 19 Nov 16:33 - 16:33  (00:00)
+nishthagupta ttys000                         Wed 18 Nov 08:57 - 08:57  (00:00)
+nishthagupta ttys000                         Mon 16 Nov 16:52 - 16:52  (00:00)
+nishthagupta ttys000                         Thu 12 Nov 22:25 - 22:25  (00:00)
+nishthagupta ttys000                         Thu 12 Nov 20:00 - 20:00  (00:00)
+nishthagupta ttys000                         Thu 12 Nov 19:48 - 19:48  (00:00)
+nishthagupta ttys000                         Mon  9 Nov 22:12 - 22:12  (00:00)
+nishthagupta ttys000                         Sat  7 Nov 18:12 - 18:12  (00:00)
+nishthagupta ttys000                         Thu 29 Oct 09:23 - 09:23  (00:00)
+nishthagupta ttys000                         Tue 27 Oct 14:12 - 14:12  (00:00)
+nishthagupta ttys000                         Mon 26 Oct 17:10 - 17:10  (00:00)
+
+wtmp begins Fri Oct  2 10:21:12 IST 2026
+zsh: command not found: nishthagupta@Nishthas-MacBook-Pro
+zsh: command not found: nishthagupta@Nishthas-MacBook-Pro
+nishthagupta@Nishthas-MacBook-Pro ~ % ifconfig en0 | grep "inet "
+	inet 10.7.30.234 netmask 0xffffe000 broadcast 10.7.31.255
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -getinfo Wi-Fi
+DHCP Configuration
+IP address: 10.7.30.234
+Subnet mask: 255.255.224.0
+Router: 10.7.0.1
+Client ID: 
+IPv6: Automatic
+IPv6 IP address: none
+IPv6 Router: none
+Wi-Fi ID: 10:9f:41:c4:35:91
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.0.1
+PING 10.7.0.1 (10.7.0.1): 56 data bytes
+64 bytes from 10.7.0.1: icmp_seq=0 ttl=64 time=11.148 ms
+64 bytes from 10.7.0.1: icmp_seq=1 ttl=64 time=26.827 ms
+64 bytes from 10.7.0.1: icmp_seq=2 ttl=64 time=9.095 ms
+64 bytes from 10.7.0.1: icmp_seq=3 ttl=64 time=8.984 ms
+
+--- 10.7.0.1 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 8.984/14.014/26.827/7.448 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 8.8.8.8
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+Request timeout for icmp_seq 0
+Request timeout for icmp_seq 1
+Request timeout for icmp_seq 2
+
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 0 packets received, 100.0% packet loss
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 google.com
+PING google.com (192.178.158.138): 56 data bytes
+64 bytes from 192.178.158.138: icmp_seq=0 ttl=107 time=13.701 ms
+64 bytes from 192.178.158.138: icmp_seq=1 ttl=107 time=14.221 ms
+64 bytes from 192.178.158.138: icmp_seq=2 ttl=107 time=16.765 ms
+64 bytes from 192.178.158.138: icmp_seq=3 ttl=107 time=9.700 ms
+
+--- google.com ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 9.700/13.597/16.765/2.531 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % route -n get default
+   route to: default
+destination: default
+       mask: default
+    gateway: 10.7.0.1
+  interface: en0
+      flags: <UP,GATEWAY,DONE,STATIC,PRCLONING,GLOBAL>
+ recvpipe  sendpipe  ssthresh  rtt,msec    rttvar  hopcount      mtu     expire
+       0         0         0         0         0         0      1500         0 
+nishthagupta@Nishthas-MacBook-Pro ~ % curl -I --max-time 10 https://google.com
+HTTP/2 301 
+location: https://www.google.com/
+content-type: text/html; charset=UTF-8
+content-security-policy-report-only: object-src 'none';base-uri 'self';script-src 'nonce-3aqe90xsUFuKQnVaO_8lPA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp
+date: Fri, 20 Nov 2026 11:57:08 GMT
+expires: Sun, 20 Dec 2026 11:57:08 GMT
+cache-control: public, max-age=2592000
+server: gws
+content-length: 220
+x-xss-protection: 0
+x-frame-options: SAMEORIGIN
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 3 10.7.9.8
+PING 10.7.9.8 (10.7.9.8): 56 data bytes
+Request timeout for icmp_seq 0
+64 bytes from 10.7.9.8: icmp_seq=0 ttl=32 time=1710.241 ms
+64 bytes from 10.7.9.8: icmp_seq=1 ttl=32 time=707.696 ms
+64 bytes from 10.7.9.8: icmp_seq=2 ttl=32 time=1550.110 ms
+
+--- 10.7.9.8 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 707.696/1322.682/1710.241/439.747 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % arp -an | grep "10.7.9.8"
+? (10.7.9.8) at 10:bd:3a:7a:f8:ac on en0 ifscope [ethernet]
+? (10.7.9.83) at 5e:5a:62:95:a0:f on en0 ifscope [ethernet]
+nishthagupta@Nishthas-MacBook-Pro ~ % ifconfig en0 | grep "inet "
+	inet 10.7.30.234 netmask 0xffffe000 broadcast 10.7.31.255
+nishthagupta@Nishthas-MacBook-Pro ~ % ifconfig en0 | grep "inet "
+	inet 10.7.30.234 netmask 0xffffe000 broadcast 10.7.31.255
+nishthagupta@Nishthas-MacBook-Pro ~ % networksetup -getinfo Wi-Fi
+DHCP Configuration
+IP address: 10.7.30.234
+Subnet mask: 255.255.224.0
+Router: 10.7.0.1
+Client ID: 
+IPv6: Automatic
+IPv6 IP address: none
+IPv6 Router: none
+Wi-Fi ID: 10:9f:41:c4:35:91
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.13.67
+PING 10.7.13.67 (10.7.13.67): 56 data bytes
+64 bytes from 10.7.13.67: icmp_seq=0 ttl=64 time=18.029 ms
+64 bytes from 10.7.13.67: icmp_seq=1 ttl=64 time=9.279 ms
+64 bytes from 10.7.13.67: icmp_seq=2 ttl=64 time=5.408 ms
+64 bytes from 10.7.13.67: icmp_seq=3 ttl=64 time=9.303 ms
+
+--- 10.7.13.67 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 5.408/10.505/18.029/4.624 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.1.114
+PING 10.7.1.114 (10.7.1.114): 56 data bytes
+64 bytes from 10.7.1.114: icmp_seq=0 ttl=64 time=116.932 ms
+64 bytes from 10.7.1.114: icmp_seq=1 ttl=64 time=220.963 ms
+64 bytes from 10.7.1.114: icmp_seq=2 ttl=64 time=38.369 ms
+64 bytes from 10.7.1.114: icmp_seq=3 ttl=64 time=59.443 ms
+
+--- 10.7.1.114 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 38.369/108.927/220.963/70.787 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % ping -c 4 10.7.13.91
+PING 10.7.13.91 (10.7.13.91): 56 data bytes
+64 bytes from 10.7.13.91: icmp_seq=0 ttl=64 time=137.872 ms
+64 bytes from 10.7.13.91: icmp_seq=1 ttl=64 time=6.481 ms
+64 bytes from 10.7.13.91: icmp_seq=2 ttl=64 time=56.082 ms
+64 bytes from 10.7.13.91: icmp_seq=3 ttl=64 time=6.335 ms
+
+--- 10.7.13.91 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 6.335/51.693/137.872/53.730 ms
+nishthagupta@Nishthas-MacBook-Pro ~ % brew --version
+Homebrew 7.0.13
+nishthagupta@Nishthas-MacBook-Pro ~ % which dnsmasq
+dnsmasq not found
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo lsof -nP -i :53
+Password:
+nishthagupta@Nishthas-MacBook-Pro ~ % brew install dnsmasq
+==> Auto-updating Homebrew...
+Adjust how often this is run with `$HOMEBREW_AUTO_UPDATE_SECS` or disable with
+`$HOMEBREW_NO_AUTO_UPDATE=1`. Hide these hints with `$HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+==> Downloading https://ghcr.io/v2/homebrew/core/portable-ruby/blobs/sha256:832729e175b3c0864c8417ebc2bdcf1509e3856a08bd866c8bb0de806da6964e
+######################################################################### 100.0%
+==> Pouring portable-ruby-4.0.10.arm64_big_sur.bottle.tar.gz
+==> Auto-updated Homebrew!
+Updated 3 taps (mongodb/brew, homebrew/core and homebrew/cask).
+==> New Formulae
+curl-impersonate: Curl build that makes HTTP requests look like they came from a real browser
+globus-cli: Command-line interface to Globus
+goose-lang: Systems programming language with flat, pointer-free data structures
+libpkl: C library calling into Pkl's message passing API
+php@8.5: General-purpose scripting language
+postgresql@19: Object-relational database system
+ssh-tpm-agent: SSH agent for Trusted Platform Module (TPM) key storage
+
+You have 30 outdated formulae installed.
+
+Warning: The following taps are not trusted:
+  mongodb/brew
+
+Homebrew is currently ignoring formulae, casks and commands
+from these taps because tap trust is required.
+Prefer trusting only the specific formulae, casks or commands you need.
+Trust installed formulae from these taps with:
+  brew trust --formula mongodb/brew/mongodb-community mongodb/brew/mongodb-database-tools
+Trust other specific casks and commands with:
+  brew trust --cask <user>/<tap>/<cask>
+  brew trust --command <user>/<tap>/<command>
+Whole-tap trust is broader and includes all current and future formulae,
+casks and commands from the listed taps. Trust whole taps with:
+  brew trust mongodb/brew
+Untap them with:
+  brew untap mongodb/brew
+For more information, see:
+  https://docs.brew.sh/Tap-Trust
+
+==> Downloading bottle manifests
+✔︎ Bottle Manifest dnsmasq (2.93)                    Downloaded   10.8KB/ 10.8KB
+==> Fetching downloads for: dnsmasq
+✔︎ Bottle dnsmasq (2.93)                             Downloaded  298.5KB/298.5KB
+==> Pouring dnsmasq--2.93.arm64_golden_gate.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/dnsmasq/2.93: 13 files, 710.3KB
+==> Caveats
+==> dnsmasq
+On current macOS releases, `/etc/resolver/<domain>` resolver overrides do not work if the nameserver is `127.0.0.1` and dnsmasq is running on a non-53 port.
+To use scoped resolver zones reliably, bind dnsmasq to a non-localhost IP (e.g., a loopback alias like 10.0.0.1) on port 53.
+
+To start dnsmasq now and restart at startup:
+  sudo brew services start dnsmasq
+Or, if you don't want/need a background service you can just run:
+  /opt/homebrew/opt/dnsmasq/sbin/dnsmasq --keep-in-foreground -C /opt/homebrew/etc/dnsmasq.conf -7 /opt/homebrew/etc/dnsmasq.d,\*.conf
+nishthagupta@Nishthas-MacBook-Pro ~ % dnsmasq --version
+Dnsmasq version 2.93  Copyright (c) 2000-2026 Simon Kelley
+Compile time options: IPv6 GNU-getopt no-DBus no-UBus no-i18n no-IDN DHCP DHCPv6 no-Lua TFTP no-conntrack no-ipset no-nftset auth no-DNSSEC loop-detect no-inotify dumpfile
+
+This software comes with ABSOLUTELY NO WARRANTY.
+Dnsmasq is free software, and you are welcome to redistribute it
+under the terms of the GNU General Public License, version 2 or 3.
+nishthagupta@Nishthas-MacBook-Pro ~ % dnsmasq --version
+Dnsmasq version 2.93  Copyright (c) 2000-2026 Simon Kelley
+Compile time options: IPv6 GNU-getopt no-DBus no-UBus no-i18n no-IDN DHCP DHCPv6 no-Lua TFTP no-conntrack no-ipset no-nftset auth no-DNSSEC loop-detect no-inotify dumpfile
+
+This software comes with ABSOLUTELY NO WARRANTY.
+Dnsmasq is free software, and you are welcome to redistribute it
+under the terms of the GNU General Public License, version 2 or 3.
+nishthagupta@Nishthas-MacBook-Pro ~ % brew install dnsmasq
+Warning: dnsmasq 2.93 is already installed and up-to-date.
+To reinstall 2.93, run:
+  brew reinstall dnsmasq
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo lsof -nP -i :53
+nishthagupta@Nishthas-MacBook-Pro ~ % mkdir -p "$(brew --prefix)/etc"
+nishthagupta@Nishthas-MacBook-Pro ~ % nano "$(brew --prefix)/etc/dnsmasq-backup.conf"
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo "$(brew --prefix)/sbin/dnsmasq" --test --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+dnsmasq: syntax check OK.
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo "$(brew --prefix)/sbin/dnsmasq" --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+nishthagupta@Nishthas-MacBook-Pro ~ % 

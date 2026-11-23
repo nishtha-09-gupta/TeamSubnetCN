@@ -1,0 +1,817 @@
+Last login: Fri Nov 20 17:14:59 on ttys000
+aditya@MacBook-Pro ~ % ifconfig en0 | grep "inet "
+	inet 10.7.13.91 netmask 0xffffe000 broadcast 10.7.31.255
+aditya@MacBook-Pro ~ % networksetup -getinfo Wi-Fi
+DHCP Configuration
+IP address: 10.7.13.91
+Subnet mask: 255.255.224.0
+Router: 10.7.0.1
+Client ID: 
+IPv6: Automatic
+IPv6 IP address: none
+IPv6 Router: none
+Wi-Fi ID: 10:9f:41:c2:53:b9
+aditya@MacBook-Pro ~ % ping -c 4 10.7.13.67
+PING 10.7.13.67 (10.7.13.67): 56 data bytes
+64 bytes from 10.7.13.67: icmp_seq=0 ttl=64 time=14.457 ms
+64 bytes from 10.7.13.67: icmp_seq=1 ttl=64 time=80.151 ms
+64 bytes from 10.7.13.67: icmp_seq=2 ttl=64 time=98.993 ms
+64 bytes from 10.7.13.67: icmp_seq=3 ttl=64 time=19.218 ms
+
+--- 10.7.13.67 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 14.457/53.205/98.993/37.011 ms
+aditya@MacBook-Pro ~ % ping -c 4 10.7.1.114
+PING 10.7.1.114 (10.7.1.114): 56 data bytes
+64 bytes from 10.7.1.114: icmp_seq=0 ttl=64 time=28.668 ms
+64 bytes from 10.7.1.114: icmp_seq=1 ttl=64 time=11.340 ms
+64 bytes from 10.7.1.114: icmp_seq=2 ttl=64 time=10.020 ms
+64 bytes from 10.7.1.114: icmp_seq=3 ttl=64 time=32.408 ms
+
+--- 10.7.1.114 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.020/20.609/32.408/10.028 ms
+aditya@MacBook-Pro ~ % ping -c 4 10.7.30.234
+PING 10.7.30.234 (10.7.30.234): 56 data bytes
+64 bytes from 10.7.30.234: icmp_seq=0 ttl=64 time=10.187 ms
+64 bytes from 10.7.30.234: icmp_seq=1 ttl=64 time=52.367 ms
+64 bytes from 10.7.30.234: icmp_seq=2 ttl=64 time=63.002 ms
+64 bytes from 10.7.30.234: icmp_seq=3 ttl=64 time=87.393 ms
+
+--- 10.7.30.234 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.187/53.237/87.393/27.911 ms
+aditya@MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 57565
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 57 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 17:43:59 IST 2026
+;; MSG SIZE  rcvd: 59
+
+aditya@MacBook-Pro ~ % dig @10.7.30.234 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 21882
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 199 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 17:44:06 IST 2026
+;; MSG SIZE  rcvd: 59
+
+aditya@MacBook-Pro ~ % dig @10.7.13.67 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.13.67 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47822
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 11 msec
+;; SERVER: 10.7.13.67#53(10.7.13.67)
+;; WHEN: Fri Nov 20 17:59:39 IST 2026
+;; MSG SIZE  rcvd: 59
+
+aditya@MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47764
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 31 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:00:56 IST 2026
+;; MSG SIZE  rcvd: 59
+
+aditya@MacBook-Pro ~ % dig @10.7.30.234 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 52834
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 75 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:01:04 IST 2026
+;; MSG SIZE  rcvd: 59
+
+aditya@MacBook-Pro ~ % 
+aditya@MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29730
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 130 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:06:02 IST 2026
+;; MSG SIZE  rcvd: 59
+
+aditya@MacBook-Pro ~ % dig @10.7.30.234 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41876
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 102 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:06:09 IST 2026
+;; MSG SIZE  rcvd: 59
+
+aditya@MacBook-Pro ~ % nc -vz -G 3 10.7.30.234 3001
+Connection to 10.7.30.234 port 3001 [tcp/redwood-broker] succeeded!
+aditya@MacBook-Pro ~ % nc -vz -G 3 10.7.1.114 3002
+Connection to 10.7.1.114 port 3002 [tcp/exlm-agent] succeeded!
+aditya@MacBook-Pro ~ % sudo nginx -T 2>&1 | grep -A25 -B5 'upstream'
+Password:
+aditya@MacBook-Pro ~ % sudo nginx -T 2>&1 | head -80
+sudo: nginx: command not found
+aditya@MacBook-Pro ~ % which nginx
+nginx not found
+aditya@MacBook-Pro ~ % brew list --versions nginx
+zsh: command not found: brew
+aditya@MacBook-Pro ~ % ps aux | grep -i '[n]ginx'
+aditya@MacBook-Pro ~ % sudo lsof -nP -iTCP -sTCP:LISTEN | grep -E ':(80|443|8080|8081)'
+aditya@MacBook-Pro ~ % command -v docker
+aditya@MacBook-Pro ~ % uname -m
+arm64
+aditya@MacBook-Pro ~ % echo $PATH
+/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin
+aditya@MacBook-Pro ~ % ls -l /opt/homebrew/bin/nginx /opt/homebrew/sbin/nginx /usr/local/bin/nginx /usr/local/sbin/nginx 2>/dev/null
+aditya@MacBook-Pro ~ % ls -ld /opt/homebrew /usr/local/Homebrew 2>/dev/null
+aditya@MacBook-Pro ~ % command -v port
+aditya@MacBook-Pro ~ % pkgutil --pkgs | grep -i nginx
+aditya@MacBook-Pro ~ % ls -ld /opt/homebrew /usr/local/Homebrew 2>/dev/null
+command -v port
+pkgutil --pkgs | grep -i nginx
+aditya@MacBook-Pro ~ % find ~/Desktop ~/Documents -iname '*nginx*' -o -name 'nginx.conf' 2>/dev/null
+/Users/aditya/Documents/Codex/2026-11-09/npx-skills-add-vercel-labs-agent/work/taste-skill.ivUCfz/taste-skill-f6b76575f949707b4e3c37cd86cb44b0b98643e8/skills/taste-skill/assets/icons/demo/nginx.svg
+aditya@MacBook-Pro ~ % find ~/Desktop ~/Documents -iname '*nginx*' -o -name 'nginx.conf' 2>/dev/null
+/Users/aditya/Documents/Codex/2026-11-09/npx-skills-add-vercel-labs-agent/work/taste-skill.ivUCfz/taste-skill-f6b76575f949707b4e3c37cd86cb44b0b98643e8/skills/taste-skill/assets/icons/demo/nginx.svg
+aditya@MacBook-Pro ~ % ls ~/Desktop
+Generalist Expert Application Requirements Update - adityarani.1009@gmail.com - Gmail_files
+Generalist Expert Application Requirements Update - adityarani.1009@gmail.com - Gmail.html
+marketing 
+mca
+Screenshot 2026-11-04 at 5.23.48 PM.png
+Screenshot 2026-11-10 at 7.03.52 PM.png
+Screenshot 2026-11-12 at 10.44.46 PM.png
+Screenshot 2026-11-12 at 10.45.06 PM.png
+Screenshot 2026-11-18 at 1.08.45 PM.png
+Screenshot 2026-11-19 at 11.31.13 AM.png
+Screenshot 2026-11-19 at 12.09.35 AM.png
+aditya@MacBook-Pro ~ % /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+==> Checking for `sudo` access (which may request your password)...
+Password:
+==> This script will install:
+/opt/homebrew/bin/brew
+/opt/homebrew/share/doc/homebrew
+/opt/homebrew/share/man/man1/brew.1
+/opt/homebrew/share/zsh/site-functions/_brew
+/opt/homebrew/etc/bash_completion.d/brew
+/opt/homebrew
+/etc/paths.d/homebrew
+==> The following new directories will be created:
+/opt/homebrew/bin
+/opt/homebrew/etc
+/opt/homebrew/include
+/opt/homebrew/lib
+/opt/homebrew/libexec
+/opt/homebrew/sbin
+/opt/homebrew/share
+/opt/homebrew/var
+/opt/homebrew/opt
+/opt/homebrew/share/zsh
+/opt/homebrew/share/zsh/site-functions
+/opt/homebrew/var/homebrew
+/opt/homebrew/var/homebrew/linked
+/opt/homebrew/Cellar
+/opt/homebrew/Caskroom
+/opt/homebrew/Frameworks
+
+Press RETURN/ENTER to continue or any other key to abort:
+==> /usr/bin/sudo /usr/bin/install -d -o aditya -g admin -m 0755 /opt/homebrew
+==> Found Git: /Library/Developer/CommandLineTools/usr/bin/git
+==> Downloading and installing Homebrew...
+remote: Enumerating objects: 376359, done.
+remote: Counting objects: 100% (1529/1529), done.
+remote: Compressing objects: 100% (432/432), done.
+remote: Total 376359 (delta 1304), reused 1159 (delta 1093), pack-reused 374830 (from 3)
+remote: Enumerating objects: 55, done.
+remote: Counting objects: 100% (33/33), done.
+remote: Total 55 (delta 33), reused 33 (delta 33), pack-reused 22 (from 1)
+==> /usr/bin/sudo /usr/bin/install -o root -g wheel -m 0644 /var/folders/0p/r54n_jw508s5g01h434r18br0000gp/T/tmp.HvHL5P57IL /etc/paths.d/homebrew
+HOMEBREW_BREW_GIT_REMOTE set: using https://github.com/Homebrew/brew as the Homebrew/brew Git remote.
+From https://github.com/Homebrew/brew
+ * [new branch]            master     -> origin/master
+==> Updating Homebrew...
+==> Downloading https://ghcr.io/v2/homebrew/core/portable-ruby/blobs/sha256:832729e175b3c0864c8417ebc2bdcf1509e3856a08bd866c8bb0de806da6964e
+################################################################################################################# 100.0%
+==> Pouring portable-ruby-4.0.10.arm64_big_sur.bottle.tar.gz
+==> Installation successful!
+
+==> Homebrew has enabled anonymous aggregate formulae and cask analytics.
+Read the analytics documentation (and how to opt-out) here:
+  https://docs.brew.sh/Analytics
+No analytics data has been sent yet (nor will any be during this install run).
+
+==> Homebrew is run entirely by unpaid volunteers. Please consider donating:
+  https://github.com/Homebrew/brew#donations
+
+==> Next steps:
+- Run these commands in your terminal to add Homebrew to your PATH:
+    echo >> /Users/aditya/.zprofile
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv zsh)"' >> /Users/aditya/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+- Run brew help to get started
+- Further documentation:
+    https://docs.brew.sh
+
+aditya@MacBook-Pro ~ % brew --version
+zsh: command not found: brew
+aditya@MacBook-Pro ~ % echo >> /Users/aditya/.zprofile
+aditya@MacBook-Pro ~ % echo 'eval "$(/opt/homebrew/bin/brew shellenv zsh)"' >> /Users/aditya/.zprofile
+aditya@MacBook-Pro ~ % eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+aditya@MacBook-Pro ~ %  brew --version
+
+Homebrew 7.0.15
+aditya@MacBook-Pro ~ % brew install nginx
+==> Downloading bottle manifests
+✔︎ Bottle Manifest nginx (1.31.9)                                                            Downloaded   35.3KB/ 35.3KB
+==> Would install 1 formula:
+nginx 1.31.9 (1.6MB)
+==> Would install 3 dependencies for nginx:
+ca-certificates  2026-11-05
+openssl@4        4.1.0
+pcre2            10.49
+==> Do you want to proceed with the installation? [y/n]
+==> Fetching downloads for: nginx
+✔︎ Bottle Manifest ca-certificates (2026-11-05)                                              Downloaded    8.1KB/  8.1KB
+✔︎ Bottle Manifest openssl@4 (4.1.0)                                                         Downloaded   19.6KB/ 19.6KB
+✔︎ Bottle Manifest pcre2 (10.49)                                                             Downloaded   18.5KB/ 18.5KB
+✔︎ Bottle ca-certificates (2026-11-05)                                                       Downloaded  109.6KB/109.6KB
+✔︎ Bottle nginx (1.31.9)                                                                     Downloaded    1.6MB/  1.6MB
+✔︎ Bottle pcre2 (10.49)                                                                      Downloaded    2.5MB/  2.5MB
+✔︎ Bottle openssl@4 (4.1.0)                                                                  Downloaded   11.5MB/ 11.5MB
+==> Installing dependencies for nginx: ca-certificates, openssl@4 and pcre2
+==> Installing nginx dependency: ca-certificates (2026-11-05)
+==> Pouring ca-certificates--2026-11-05.all.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/ca-certificates/2026-11-05: 5 files, 196.1KB
+==> Installing nginx dependency: openssl@4 (4.1.0)
+==> Pouring openssl@4--4.1.0.arm64_golden_gate.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/openssl@4/4.1.0: 6,869 files, 24.6MB
+==> Installing nginx dependency: pcre2 (10.49)
+==> Pouring pcre2--10.49.arm64_golden_gate.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/pcre2/10.49: 245 files, 7.3MB
+==> Installing nginx
+==> Pouring nginx--1.31.9.arm64_golden_gate.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/nginx/1.31.9: 28 files, 2.8MB
+==> Caveats
+==> nginx
+Docroot is: /opt/homebrew/var/www
+
+The default port has been set in /opt/homebrew/etc/nginx/nginx.conf to 8080 so that
+nginx can run without sudo.
+
+nginx will load all files in /opt/homebrew/etc/nginx/servers/.
+
+To start nginx now and restart at login:
+  brew services start nginx
+Or, if you don't want/need a background service you can just run:
+  /opt/homebrew/opt/nginx/bin/nginx -g daemon\ off\;
+aditya@MacBook-Pro ~ % nginx -v
+nginx version: nginx/1.31.9
+aditya@MacBook-Pro ~ % brew --prefix nginx
+/opt/homebrew/opt/nginx
+aditya@MacBook-Pro ~ % brew --prefix nginx
+/opt/homebrew/opt/nginx
+aditya@MacBook-Pro ~ % nginx -v
+nginx version: nginx/1.31.9
+aditya@MacBook-Pro ~ % ls -l /opt/homebrew/etc/nginx/
+total 136
+-rw-r--r--  1 aditya  admin  1007 Nov 20 19:42 fastcgi_params
+-rw-r--r--  1 aditya  admin  1007 Nov 20 19:42 fastcgi_params.default
+-rw-r--r--  1 aditya  admin  1077 Nov 20 19:42 fastcgi.conf
+-rw-r--r--  1 aditya  admin  1077 Nov 20 19:42 fastcgi.conf.default
+-rw-r--r--  1 aditya  admin  2837 Nov 20 19:42 koi-utf
+-rw-r--r--  1 aditya  admin  2223 Nov 20 19:42 koi-win
+-rw-r--r--  1 aditya  admin  5349 Nov 20 19:42 mime.types
+-rw-r--r--  1 aditya  admin  5349 Nov 20 19:42 mime.types.default
+-rw-r--r--  1 aditya  admin  2654 Nov 20 19:42 nginx.conf
+-rw-r--r--  1 aditya  admin  2654 Nov 20 19:42 nginx.conf.default
+-rw-r--r--  1 aditya  admin   636 Nov 20 19:42 scgi_params
+-rw-r--r--  1 aditya  admin   636 Nov 20 19:42 scgi_params.default
+drwxr-xr-x  3 aditya  admin    96 Nov 20 19:42 servers
+-rw-r--r--  1 aditya  admin   664 Nov 20 19:42 uwsgi_params
+-rw-r--r--  1 aditya  admin   664 Nov 20 19:42 uwsgi_params.default
+-rw-r--r--  1 aditya  admin  3611 Nov 20 19:42 win-utf
+aditya@MacBook-Pro ~ % cp /opt/homebrew/etc/nginx/nginx.conf 
+usage: cp [-R [-H | -L | -P]] [-fi | -n] [-aclpSsvXx] source_file target_file
+       cp [-R [-H | -L | -P]] [-fi | -n] [-aclpSsvXx] source_file ... target_directory
+aditya@MacBook-Pro ~ % /opt/homebrew/etc/nginx/nginx.conf.default.backup
+zsh: no such file or directory: /opt/homebrew/etc/nginx/nginx.conf.default.backup
+aditya@MacBook-Pro ~ % cp /opt/homebrew/etc/nginx/nginx.conf /opt/homebrew/etc/nginx/nginx.conf.default.backup
+aditya@MacBook-Pro ~ % ls -l /opt/homebrew/etc/nginx/nginx.conf*
+-rw-r--r--  1 aditya  admin  2654 Nov 20 19:42 /opt/homebrew/etc/nginx/nginx.conf
+-rw-r--r--  1 aditya  admin  2654 Nov 20 19:42 /opt/homebrew/etc/nginx/nginx.conf.default
+-rw-r--r--  1 aditya  admin  2654 Nov 20 19:45 /opt/homebrew/etc/nginx/nginx.conf.default.backup
+aditya@MacBook-Pro ~ % cat /opt/homebrew/etc/nginx/nginx.conf
+
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen       8080;
+        server_name  localhost;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server {
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+
+    # HTTPS server
+    #
+    #server {
+    #    listen       443 ssl;
+    #    server_name  localhost;
+
+    #    ssl_certificate      cert.pem;
+    #    ssl_certificate_key  cert.key;
+
+    #    ssl_session_cache    shared:SSL:1m;
+    #    ssl_session_timeout  5m;
+
+    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+    #    ssl_prefer_server_ciphers  on;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+    include servers/*;
+}
+aditya@MacBook-Pro ~ % ipconfig getifaddr en0
+10.7.13.91
+aditya@MacBook-Pro ~ % sudo lsof -nP -iTCP:80 -iTCP:443 -sTCP:LISTEN
+Password:
+aditya@MacBook-Pro ~ % cat > /opt/homebrew/etc/nginx/servers/teamx.conf <<'EOF'
+upstream backend_pool {
+    server 10.7.30.234:3001 max_fails=1 fail_timeout=10s;
+    server 10.7.1.114:3002 max_fails=1 fail_timeout=10s;
+}
+
+server {
+    listen 80;
+    server_name app.teamX.test;
+
+    location / {
+        proxy_pass http://backend_pool;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 10s;
+        proxy_next_upstream error timeout http_502 http_503;
+        proxy_next_upstream_tries 2;
+    }
+}
+EOF
+
+nginx -t
+nginx: the configuration file /opt/homebrew/etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /opt/homebrew/etc/nginx/nginx.conf test is successful
+aditya@MacBook-Pro ~ % brew services start nginx
+==> Successfully started `nginx` (label: sh.brew.nginx)
+aditya@MacBook-Pro ~ % brew services list | grep nginx
+nginx started         aditya ~/Library/LaunchAgents/sh.brew.nginx.plist
+aditya@MacBook-Pro ~ % curl -i http://127.0.0.1/
+HTTP/1.1 502 Bad Gateway
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:19:30 GMT
+Content-Type: text/html
+Content-Length: 157
+Connection: keep-alive
+
+<html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.31.9</center>
+</body>
+</html>
+aditya@MacBook-Pro ~ % curl -i --max-time 5 http://10.7.30.234:3001/
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+Date: Fri, 20 Nov 2026 14:20:17 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Backend A is running"}%                                                                                     aditya@MacBook-Pro ~ % curl -i --max-time 5 http://10.7.1.114:3002/
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+Date: Fri, 20 Nov 2026 14:20:23 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Backend B is running"}%                                                                                     aditya@MacBook-Pro ~ % curl -i http://127.0.0.1/
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:21:44 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}%                                                                                     aditya@MacBook-Pro ~ % curl -i -H "Host: app.teamX.test" http://127.0.0.1/
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:22:21 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}%                                                                                     aditya@MacBook-Pro ~ % tail -30 /opt/homebrew/var/log/nginx/error.log
+2026/11/20 19:49:30 [error] 16328#0: *1 kevent() reported that connect() failed (65: No route to host) while connecting to upstream, client: 127.0.0.1, server: app.teamx.test, request: "GET / HTTP/1.1", upstream: "http://10.7.30.234:3001/", host: "127.0.0.1"
+2026/11/20 19:49:30 [error] 16328#0: *1 kevent() reported that connect() failed (65: No route to host) while connecting to upstream, client: 127.0.0.1, server: app.teamx.test, request: "GET / HTTP/1.1", upstream: "http://10.7.1.114:3002/", host: "127.0.0.1"
+aditya@MacBook-Pro ~ % for i in {1..10}; do
+  curl -s --max-time 5 -H "Host: app.teamX.test" http://127.0.0.1/
+  echo
+done
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+aditya@MacBook-Pro ~ % for i in {1..5}; do
+  curl -i --max-time 10 -H "Host: app.teamX.test" http://127.0.0.1/
+  echo
+done
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:25:10 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:25:10 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:25:10 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:25:10 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:25:10 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+aditya@MacBook-Pro ~ % for i in {1..5}; do
+  curl -i --max-time 10 -H "Host: app.teamX.test" http://127.0.0.1/
+  echo
+done
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:26:37 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:26:37 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:26:38 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+
+{"message":"Backend A is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:26:38 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+{"message":"Backend B is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:26:38 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+
+{"message":"Backend A is running"}
+aditya@MacBook-Pro ~ % for i in {1..5}; do
+  curl -i --max-time 10 -H "Host: app.teamX.test" http://127.0.0.1/
+  echo
+done
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:27:20 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+
+{"message":"Backend A is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:27:20 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+
+{"message":"Backend A is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:27:20 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+
+{"message":"Backend A is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:27:20 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+
+{"message":"Backend A is running"}
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:27:20 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-mGdC3eoyzu3pC9SeyJh17UTWOT4"
+
+{"message":"Backend A is running"}
+aditya@MacBook-Pro ~ % for i in {1..6}; do
+  curl -s --max-time 5 -H "Host: app.teamX.test" http://127.0.0.1/
+  echo
+done
+{"message":"Backend A is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+aditya@MacBook-Pro ~ % for i in {1..6}; do
+  curl -s --max-time 5 -H "Host: app.teamX.test" http://127.0.0.1/
+  echo
+done
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+{"message":"Backend B is running"}
+{"message":"Backend A is running"}
+aditya@MacBook-Pro ~ % dig @10.7.13.67 app.teamX.test +short
+10.7.13.91
+aditya@MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test +short
+
+10.7.13.91
+aditya@MacBook-Pro ~ % curl -i -H "Host: app.teamX.test" http://10.7.13.91/
+HTTP/1.1 200 OK
+Server: nginx/1.31.9
+Date: Fri, 20 Nov 2026 14:40:14 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+Connection: keep-alive
+X-Powered-By: Express
+ETag: W/"22-lPbciPOBk5vPGJGfwqiChR9exXc"
+
+aditya@MacBook-Pro ~ % 

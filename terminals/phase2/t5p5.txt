@@ -1,0 +1,334 @@
+Last login: Fri Nov 20 18:48:12 on ttys006
+nishthagupta@Nishthas-MacBook-Pro ~ % cat /etc/pf.conf
+#
+# Default PF configuration file.
+#
+# This file contains the main ruleset, which gets automatically loaded
+# at startup.  PF will not be automatically enabled, however.  Instead,
+# each component which utilizes PF is responsible for enabling and disabling
+# PF via -E and -X as documented in pfctl(8).  That will ensure that PF
+# is disabled only when the last enable reference is released.
+#
+# Care must be taken to ensure that the main ruleset does not get flushed,
+# as the nested anchors rely on the anchor point defined here. In addition,
+# to the anchors loaded by this file, some system services would dynamically 
+# insert anchors into the main ruleset. These anchors will be added only when
+# the system service is used and would removed on termination of the service.
+#
+# See pf.conf(5) for syntax.
+#
+
+#
+# com.apple anchor point
+#
+scrub-anchor "com.apple/*"
+nat-anchor "com.apple/*"
+rdr-anchor "com.apple/*"
+dummynet-anchor "com.apple/*"
+anchor "com.apple/*"
+load anchor "com.apple" from "/etc/pf.anchors/com.apple"
+nishthagupta@Nishthas-MacBook-Pro ~ % ifconfig en0 | head -5
+en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+	options=6460<TSO4,TSO6,CHANNEL_IO,PARTIAL_CSUM,ZEROINVERT_CSUM>
+	ether f2:69:74:42:e6:a8
+	inet6 fe80::189b:adde:2e4b:ede9%en0 prefixlen 64 secured scopeid 0xb 
+	inet 10.7.30.234 netmask 0xffffe000 broadcast 10.7.31.255
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo tee /etc/pf.anchors/teamphase2
+Password:
+
+
+
+
+
+
+pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port 3001 flags S/SA keep state
+block in quick on en0 inet proto tcp from any to 10.7.30.234 port 3001pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port 3001 flags S/SA keep state
+block in quick on en0 inet proto tcp from any to 10.7.30.234 port 3001%         nishthagupta@Nishthas-MacBook-Pro ~ % sudo cat -n /etc/pf.anchors/teamphase2
+     1	
+     2	
+     3	
+     4	pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port 3001 flags S/SA keep state
+     5	block in quick on en0 inet proto tcp from any to 10.7.30.234 port 3001% nishthagupta@Nishthas-MacBook-Pro ~ % printf '%s\n' 'anchor "teamphase2"' 'load anchor "teamphase2" from "/etc/pf.anchors/teamphase2"' | sudo tee -a /etc/pf.conf
+anchor "teamphase2"
+load anchor "teamphase2" from "/etc/pf.anchors/teamphase2"
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -nf /etc/pf.conf
+pfctl: Use of -f option, could result in flushing of rules
+present in the main ruleset added by the system at startup.
+See /etc/pf.conf for further details.
+
+/etc/pf.conf:30: syntax error
+pfctl: load anchors
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo nl -ba /etc/pf.conf
+     1	#
+     2	# Default PF configuration file.
+     3	#
+     4	# This file contains the main ruleset, which gets automatically loaded
+     5	# at startup.  PF will not be automatically enabled, however.  Instead,
+     6	# each component which utilizes PF is responsible for enabling and disabling
+     7	# PF via -E and -X as documented in pfctl(8).  That will ensure that PF
+     8	# is disabled only when the last enable reference is released.
+     9	#
+    10	# Care must be taken to ensure that the main ruleset does not get flushed,
+    11	# as the nested anchors rely on the anchor point defined here. In addition,
+    12	# to the anchors loaded by this file, some system services would dynamically 
+    13	# insert anchors into the main ruleset. These anchors will be added only when
+    14	# the system service is used and would removed on termination of the service.
+    15	#
+    16	# See pf.conf(5) for syntax.
+    17	#
+    18	
+    19	#
+    20	# com.apple anchor point
+    21	#
+    22	scrub-anchor "com.apple/*"
+    23	nat-anchor "com.apple/*"
+    24	rdr-anchor "com.apple/*"
+    25	dummynet-anchor "com.apple/*"
+    26	anchor "com.apple/*"
+    27	load anchor "com.apple" from "/etc/pf.anchors/com.apple"
+    28	anchor "teamphase2"
+    29	load anchor "teamphase2" from "/etc/pf.anchors/teamphase2"
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo nl -ba /etc/pf.anchors/teamphase2
+     1	
+     2	
+     3	
+     4	pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port 3001 flags S/SA keep state
+     5	block in quick on en0 inet proto tcp from any to 10.7.30.234 port 3001% nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -vnf /etc/pf.anchors/teamphase2 
+pfctl: Use of -f option, could result in flushing of rules
+present in the main ruleset added by the system at startup.
+See /etc/pf.conf for further details.
+
+/etc/pf.anchors/teamphase2:5: syntax error
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo tail -5 /etc/pf.conf
+dummynet-anchor "com.apple/*"
+anchor "com.apple/*"
+load anchor "com.apple" from "/etc/pf.anchors/com.apple"
+anchor "teamphase2"
+load anchor "teamphase2" from "/etc/pf.anchors/teamphase2"
+nishthagupta@Nishthas-MacBook-Pro ~ % printf '%s\n' \
+'pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port = 3001 flags S/SA keep state' \
+'block in quick on en0 inet proto tcp from any to 10.7.30.234 port = 3001' \
+| sudo tee /etc/pf.anchors/teamphase2
+pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port = 3001 flags S/SA keep state
+block in quick on en0 inet proto tcp from any to 10.7.30.234 port = 3001
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -vnf /etc/pf.anchors/teamphase2 
+pfctl: Use of -f option, could result in flushing of rules
+present in the main ruleset added by the system at startup.
+See /etc/pf.conf for further details.
+
+pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port = 3001 flags S/SA keep state
+block drop in quick on en0 inet proto tcp from any to 10.7.30.234 port = 3001
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -nf /etc/pf.conf
+pfctl: Use of -f option, could result in flushing of rules
+present in the main ruleset added by the system at startup.
+See /etc/pf.conf for further details.
+
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -s info
+No ALTQ support in kernel
+ALTQ related functions disabled
+Status: Disabled for 0 days 23:32:18          Debug: Urgent
+
+State Table                          Total             Rate
+  current entries                        0               
+  searches                           12532            0.1/s
+  inserts                              193            0.0/s
+  removals                             193            0.0/s
+Counters
+  match                               7636            0.1/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                             80            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  dummynet                               0            0.0/s
+  invalid-port                           0            0.0/s
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -sr
+No ALTQ support in kernel
+ALTQ related functions disabled
+scrub-anchor "com.apple/*" all fragment reassemble
+anchor "com.apple/*" all
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -s Anchors
+No ALTQ support in kernel
+ALTQ related functions disabled
+  com.apple
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -f /etc/pf.conf
+pfctl: Use of -f option, could result in flushing of rules
+present in the main ruleset added by the system at startup.
+See /etc/pf.conf for further details.
+
+No ALTQ support in kernel
+ALTQ related functions disabled
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -s info
+No ALTQ support in kernel
+ALTQ related functions disabled
+Status: Disabled for 0 days 23:34:33          Debug: Urgent
+
+State Table                          Total             Rate
+  current entries                        0               
+  searches                           12532            0.1/s
+  inserts                              193            0.0/s
+  removals                             193            0.0/s
+Counters
+  match                               7636            0.1/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                             80            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  dummynet                               0            0.0/s
+  invalid-port                           0            0.0/s
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -s Anchors
+No ALTQ support in kernel
+ALTQ related functions disabled
+  com.apple
+  teamphase2
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -a teamphase2 -sr
+No ALTQ support in kernel
+ALTQ related functions disabled
+pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port = 3001 flags S/SA keep state
+block drop in quick on en0 inet proto tcp from any to 10.7.30.234 port = 3001
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -E
+No ALTQ support in kernel
+ALTQ related functions disabled
+pf enabled
+Token : [REDACTED: local PF reference token]
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -s info
+No ALTQ support in kernel
+ALTQ related functions disabled
+Status: Enabled for 0 days 00:00:05           Debug: Urgent
+
+State Table                          Total             Rate
+  current entries                        0               
+  searches                           13321         2664.2/s
+  inserts                              193           38.6/s
+  removals                             193           38.6/s
+Counters
+  match                               8095         1619.0/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                             83           16.6/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  dummynet                               0            0.0/s
+  invalid-port                           0            0.0/s
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -a teamphase2 -vvsr
+No ALTQ support in kernel
+ALTQ related functions disabled
+@0 pass in quick on en0 inet proto tcp from 10.7.13.91 to 10.7.30.234 port = 3001 flags S/SA keep state
+  [ Owner : nil          Priority : 0     ]
+  [ Evaluations: 6697      Packets: 8         Bytes: 440         States: 1     ]
+  [ Inserted: uid 0 pid 29269 ]
+@1 block drop in quick on en0 inet proto tcp from any to 10.7.30.234 port = 3001
+  [ Owner : nil          Priority : 0     ]
+  [ Evaluations: 1468      Packets: 3         Bytes: 192         States: 0     ]
+  [ Inserted: uid 0 pid 29269 ]
+nishthagupta@Nishthas-MacBook-Pro ~ % nc -vz -G 3 10.7.1.114 3002
+nc: connectx to 10.7.1.114 port 3002 (tcp) failed: Operation timed out
+nishthagupta@Nishthas-MacBook-Pro ~ % brew services start nginx
+Error: Formula `nginx` is not installed.
+nishthagupta@Nishthas-MacBook-Pro ~ % for i in {1..10}; do
+  curl -s --max-time 5 -H "Host: app.teamX.test" http://127.0.0.1/
+  echo
+done
+
+
+
+
+
+
+
+
+
+
+nishthagupta@Nishthas-MacBook-Pro ~ % nano $(brew --prefix)/etc/dnsmasq-backup.conf
+nishthagupta@Nishthas-MacBook-Pro ~ % address=/app.teamX.test/10.7.30.234
+nishthagupta@Nishthas-MacBook-Pro ~ % address=/app.teamX.test/10.7.13.91
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo dnsmasq --test --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+Password:
+dnsmasq: syntax check OK.
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo brew services restart dnsmasq-backup
+Error: No available formula with the name "dnsmasq-backup".
+nishthagupta@Nishthas-MacBook-Pro ~ % ps aux | grep '[d]nsmasq'
+root             27405   0.0  0.0 488786384    832 s002  S+    6:30PM   0:00.18 /opt/homebrew/sbin/dnsmasq --no-daemon --conf-file=/opt/homebrew/etc/dnsmasq-backup.conf
+root             27404   0.0  0.0 488787536    304 s002  Ss    6:30PM   0:00.00 sudo /opt/homebrew/sbin/dnsmasq --no-daemon --conf-file=/opt/homebrew/etc/dnsmasq-backup.conf
+root             27403   0.0  0.0 488791168   2320 s003  S+    6:30PM   0:00.02 sudo /opt/homebrew/sbin/dnsmasq --no-daemon --conf-file=/opt/homebrew/etc/dnsmasq-backup.conf
+nishthagupta@Nishthas-MacBook-Pro ~ % grep -E 'local-ttl|address=' /opt/homebrew/etc/dnsmasq-backup.conf 
+listen-address=127.0.0.1,10.7.30.234
+local-ttl=30
+address=/app.teamX.test/10.7.13.91
+address=/api.teamX.test/10.7.13.91
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 1875
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.30.234
+
+;; Query time: 19 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 20:08:14 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo kill -TERM 27405
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo /opt/homebrew/sbin/dnsmasq --conf-file=/opt/homebrew/etc/dnsmasq-backup.conf
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 62186
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.13.91
+
+;; Query time: 8 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 20:08:49 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % 
+

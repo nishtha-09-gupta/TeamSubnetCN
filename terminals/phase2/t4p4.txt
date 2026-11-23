@@ -1,0 +1,220 @@
+Last login: Fri Nov 20 18:30:31 on ttys002
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 32228
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.30.234
+
+;; Query time: 6 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:30:52 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 10845
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.30.234
+
+;; Query time: 8 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:31:35 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % grep 'address=' "$(brew --prefix)/etc/dnsmasq.conf"
+#address=/double-click.net/127.0.0.1
+#address=/www.thekelleys.org.uk/fe80::20d:60ff:fe36:f83
+#listen-address=
+nishthagupta@Nishthas-MacBook-Pro ~ % ps -p 12698 -o command=
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 62526
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.30.234
+
+;; Query time: 12 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:37:17 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.13.67 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.13.67 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 49188
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		30	IN	A	10.7.13.91
+
+;; Query time: 53 msec
+;; SERVER: 10.7.13.67#53(10.7.13.67)
+;; WHEN: Fri Nov 20 18:38:28 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 30069
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		30	IN	A	10.7.13.91
+
+;; Query time: 8 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:38:36 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 7253
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.30.234
+
+;; Query time: 5 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:39:24 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo dscacheutil -flushcache
+Password:
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo killall -HUP mDNSResponder
+nishthagupta@Nishthas-MacBook-Pro ~ % dig app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> app.teamX.test
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 53258
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; AUTHORITY SECTION:
+.			86391	IN	SOA	a.root-servers.net. nstld.verisign-grs.com. 2026112000 1800 900 604800 86400
+
+;; Query time: 12 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Fri Nov 20 18:40:18 IST 2026
+;; MSG SIZE  rcvd: 118
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14519
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.30.234
+
+;; Query time: 11 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:41:17 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -s info
+No ALTQ support in kernel
+ALTQ related functions disabled
+Status: Disabled for 0 days 23:16:11          Debug: Urgent
+
+State Table                          Total             Rate
+  current entries                        0               
+  searches                           12532            0.1/s
+  inserts                              193            0.0/s
+  removals                             193            0.0/s
+Counters
+  match                               7636            0.1/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                             80            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  dummynet                               0            0.0/s
+  invalid-port                           0            0.0/s
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo pfctl -sr
+No ALTQ support in kernel
+ALTQ related functions disabled
+scrub-anchor "com.apple/*" all fragment reassemble
+anchor "com.apple/*" all
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo lsof -nP -iTCP:3001 -sTCP:LISTEN
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo cp -n /etc/pf.conf /etc/pf.conf.phase2.backup
+nishthagupta@Nishthas-MacBook-Pro ~ % 

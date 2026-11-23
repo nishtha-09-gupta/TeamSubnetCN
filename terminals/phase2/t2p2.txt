@@ -1,0 +1,182 @@
+Last login: Fri Nov 20 17:42:26 on ttys001
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 48823
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 3402 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 17:42:40 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 11352
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 7 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 17:42:49 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 13354
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 9 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:00:13 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 26601
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 11 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:00:21 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 61021
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 14 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:05:16 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 api.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 api.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 10678
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;api.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+api.teamX.test.		0	IN	A	10.7.13.91
+
+;; Query time: 9 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:05:21 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % cat "$(brew --prefix)/etc/dnsmasq-backup.conf"
+interface=en0
+interface=lo0
+listen-address=127.0.0.1,10.7.30.234
+
+bind-interfaces
+port=53
+log-queries
+
+no-resolv
+address=/app.teamX.test/10.7.13.91
+address=/api.teamX.test/10.7.13.91
+nishthagupta@Nishthas-MacBook-Pro ~ % nano "$(brew --prefix)/etc/dnsmasq-backup.conf"
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo "$(brew --prefix)/sbin/dnsmasq" --test --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+Password:
+dnsmasq: syntax check OK.
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo lsof -nP -i :53
+COMMAND   PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+dnsmasq 26595 nobody    4u  IPv4  0x3e8f98e3778136b      0t0  UDP 10.7.30.234:53
+dnsmasq 26595 nobody    5u  IPv4 0xca48279bdbfe3727      0t0  TCP 10.7.30.234:53 (LISTEN)
+dnsmasq 26595 nobody    6u  IPv4 0x24c626139c61a56b      0t0  UDP 127.0.0.1:53
+dnsmasq 26595 nobody    7u  IPv4 0x1df13b7c1367c05b      0t0  TCP 127.0.0.1:53 (LISTEN)
+dnsmasq 26595 nobody    8u  IPv6 0xef81d4508250ded9      0t0  UDP [fe80:b::189b:adde:2e4b:ede9]:53
+dnsmasq 26595 nobody    9u  IPv6 0x763c288c21a82973      0t0  TCP [fe80:b::189b:adde:2e4b:ede9]:53 (LISTEN)
+dnsmasq 26595 nobody   10u  IPv6 0x159aa2ecd15eea92      0t0  UDP [fe80:1::1]:53
+dnsmasq 26595 nobody   11u  IPv6 0x800a5facd9ca0ecc      0t0  TCP [fe80:1::1]:53 (LISTEN)
+dnsmasq 26595 nobody   12u  IPv6  0x411ae3063478000      0t0  UDP [::1]:53
+dnsmasq 26595 nobody   13u  IPv6 0xc6e0c0a79ecebf84      0t0  TCP [::1]:53 (LISTEN)
+nishthagupta@Nishthas-MacBook-Pro ~ % ps -p 26595 -o command=
+/opt/homebrew/sbin/dnsmasq --conf-file=/opt/homebrew/etc/dnsmasq-backup.conf
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo kill -TERM 26595
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo lsof -nP -i :53
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo "$(brew --prefix)/sbin/dnsmasq" --no-daemon --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+dnsmasq: started, version 2.93 cachesize 150
+dnsmasq: compile time options: IPv6 GNU-getopt no-DBus no-UBus no-i18n no-IDN DHCP DHCPv6 no-Lua TFTP no-conntrack no-ipset no-nftset auth no-DNSSEC loop-detect no-inotify dumpfile
+dnsmasq: warning: no upstream servers configured
+dnsmasq: read /etc/hosts - 3 names
+
+
+
+
+
+
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.13.91
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.13.91
+dnsmasq: exiting on receipt of SIGTERM
+nishthagupta@Nishthas-MacBook-Pro ~ % 

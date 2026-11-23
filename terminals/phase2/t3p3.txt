@@ -1,0 +1,106 @@
+Last login: Fri Nov 20 18:17:04 on ttys002
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 53653
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.13.91
+
+;; Query time: 14 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:17:26 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % cat "$(brew --prefix)/etc/dnsmasq-backup.conf"
+interface=en0
+interface=lo0
+listen-address=127.0.0.1,10.7.30.234
+bind-interfaces
+port=53
+local-ttl=30
+log-queries
+no-resolv
+address=/app.teamX.test/10.7.13.91
+address=/api.teamX.test/10.7.13.91
+nishthagupta@Nishthas-MacBook-Pro ~ % nano "$(brew --prefix)/etc/dnsmasq-backup.conf"
+nishthagupta@Nishthas-MacBook-Pro ~ % dnsmasq --test --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+dnsmasq: syntax check OK.
+nishthagupta@Nishthas-MacBook-Pro ~ % grep 'address=' "$(brew --prefix)/etc/dnsmasq-backup.conf"
+listen-address=127.0.0.1,10.7.30.234
+address=/app.teamX.test/10.7.30.234
+address=/api.teamX.test/10.7.13.91
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo "$(brew --prefix)/sbin/dnsmasq" --no-daemon --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+Password:
+
+dnsmasq: failed to create listening socket for 10.7.30.234: Address already in use
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo lsof -nP -i :53
+COMMAND   PID USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+dnsmasq 26985 root    4u  IPv4 0xde1129487c0c9e93      0t0  UDP 10.7.30.234:53
+dnsmasq 26985 root    5u  IPv4 0x91f5528366210f0f      0t0  TCP 10.7.30.234:53 (LISTEN)
+dnsmasq 26985 root    6u  IPv4 0xcf2f5180a0914144      0t0  UDP 127.0.0.1:53
+dnsmasq 26985 root    7u  IPv4 0xe9bbfdf2e5d9ff6e      0t0  TCP 127.0.0.1:53 (LISTEN)
+dnsmasq 26985 root    8u  IPv6 0xa20a333172d11904      0t0  UDP [fe80:b::189b:adde:2e4b:ede9]:53
+dnsmasq 26985 root    9u  IPv6 0x800a5facd9ca0ecc      0t0  TCP [fe80:b::189b:adde:2e4b:ede9]:53 (LISTEN)
+dnsmasq 26985 root   10u  IPv6 0xf0f70f887632e497      0t0  UDP [fe80:1::1]:53
+dnsmasq 26985 root   11u  IPv6 0xa89237aaf58a7617      0t0  TCP [fe80:1::1]:53 (LISTEN)
+dnsmasq 26985 root   12u  IPv6 0xb8327cdc17b02b5d      0t0  UDP [::1]:53
+dnsmasq 26985 root   13u  IPv6 0xa159b62522cf77e2      0t0  TCP [::1]:53 (LISTEN)
+nishthagupta@Nishthas-MacBook-Pro ~ % ps -p 26985 -o command=
+/opt/homebrew/sbin/dnsmasq --no-daemon --conf-file=/opt/homebrew/etc/dnsmasq-ba
+nishthagupta@Nishthas-MacBook-Pro ~ % dig @10.7.30.234 app.teamX.test
+
+; <<>> DiG 9.10.6 <<>> @10.7.30.234 app.teamX.test
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 17897
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;app.teamX.test.			IN	A
+
+;; ANSWER SECTION:
+app.teamX.test.		30	IN	A	10.7.13.91
+
+;; Query time: 23 msec
+;; SERVER: 10.7.30.234#53(10.7.30.234)
+;; WHEN: Fri Nov 20 18:29:54 IST 2026
+;; MSG SIZE  rcvd: 59
+
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo kill -TERM 26985
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo lsof -nP -i :53
+nishthagupta@Nishthas-MacBook-Pro ~ % sudo "$(brew --prefix)/sbin/dnsmasq" --no-daemon --conf-file="$(brew --prefix)/etc/dnsmasq-backup.conf"
+dnsmasq: started, version 2.93 cachesize 150
+dnsmasq: compile time options: IPv6 GNU-getopt no-DBus no-UBus no-i18n no-IDN DHCP DHCPv6 no-Lua TFTP no-conntrack no-ipset no-nftset auth no-DNSSEC loop-detect no-inotify dumpfile
+dnsmasq: warning: no upstream servers configured
+dnsmasq: read /etc/hosts - 3 names
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.30.234
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.30.234
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.30.234
+dnsmasq: query[A] api.teamx.test from 10.7.13.67
+dnsmasq: config api.teamx.test is 10.7.13.91
+dnsmasq: query[A] api.teamx.test from 10.7.30.234
+dnsmasq: config api.teamx.test is 10.7.13.91
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.30.234
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.30.234
+dnsmasq: query[A] app.teamx.test from 10.7.30.234
+dnsmasq: config app.teamx.test is 10.7.30.234
+dnsmasq: exiting on receipt of SIGTERM
+nishthagupta@Nishthas-MacBook-Pro ~ % 
